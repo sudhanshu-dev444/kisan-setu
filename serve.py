@@ -947,11 +947,19 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             pass
 
     def log_message(self, format, *args):
-        tag = '[API ]' if '/api/' in str(args[0] if args else '') else '[FILE]'
-        sys.stderr.write(f"{tag} [{self.log_date_time_string()}] {format % args}\n")
+        try:
+            tag = '[API ]' if '/api/' in str(args[0] if args else '') else '[FILE]'
+            sys.stderr.write(f"{tag} [{self.log_date_time_string()}] {format % args}\n")
+            sys.stderr.flush()
+        except Exception:
+            pass
 
     def log_error(self, format, *args):
-        pass
+        try:
+            sys.stderr.write(f"[ERROR] [{self.log_date_time_string()}] {format % args}\n")
+            sys.stderr.flush()
+        except Exception:
+            pass
 
 
 # ─────────────────────────────────────────────
@@ -980,7 +988,14 @@ def run(port: int = DEFAULT_PORT):
     print("  POST /api/farmer/register    POST /api/farmer/update", flush=True)
     print("  POST /api/procurement/slot   POST /api/payments/voucher/mint", flush=True)
     print("==================================================", flush=True)
+    print(f"Opening browser automatically at {url} ...",      flush=True)
     print("Press Ctrl+C to stop the server.\n",                flush=True)
+
+    try:
+        import threading
+        threading.Timer(0.8, lambda: webbrowser.open(url)).start()
+    except Exception:
+        pass
 
     class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
         daemon_threads = True
