@@ -32,7 +32,7 @@ The codebase provides **two complementary execution runtimes** that share the ex
                  └───────────────────────────────────────────────┘
 ```
 
-### Option 1: Standalone Zero-Dependency Runner (`serve.py`)
+### Standalone Zero-Dependency Runner (`serve.py`)
 No `pip install` required! Runs immediately using Python's built-in standard library:
 ```bash
 cd "farmgrow-main/Kisan Setu"
@@ -43,20 +43,6 @@ python serve.py
   - Serves `index.html` and all static web assets with proper MIME types.
   - Native support for all `/api/*` endpoints (OTP, MSP, Mandi, Schemes, Centers, Farmer profile).
   - Native support for all `/api/v1/*` endpoints (SQL DB health, statistics, farmers, slot bookings, market prices, weather, PFMS vouchers) connected to `kisan_setu.db`.
-
-### Option 2: Production ASGI Backend (`app_build/main.py`)
-For production deployments requiring high-concurrency async I/O, rate limiting, and security headers:
-```bash
-cd "farmgrow-main/Kisan Setu/app_build"
-pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8000
-```
-- **Port:** `8000`
-- **Features:**
-  - Full FastAPI framework with Swagger documentation (`/docs`, disabled by default for security).
-  - Sliding-window per-IP rate limiting (login/signup 5/min, default 120/min).
-  - Full suite of security response headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options).
-  - Mounts both `/api/v1/*` and `/api/*` endpoints.
 
 ---
 
