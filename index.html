@@ -156,7 +156,10 @@
     <button onclick="nav('screen-login')" class="text-primary flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant mr-2">
       <span class="material-symbols-outlined">arrow_back</span>
     </button>
-    <h1 class="text-headline-md font-bold text-primary flex-1" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs">
       <span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span>
     </button>
@@ -262,7 +265,10 @@
     <button onclick="openRegistrationScreen()" class="text-primary flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant mr-2">
       <span class="material-symbols-outlined">arrow_back</span>
     </button>
-    <h1 class="text-headline-md font-bold text-primary flex-1" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
   <main class="flex-1 px-5 py-6 flex flex-col max-w-md mx-auto w-full pb-24">
@@ -334,7 +340,10 @@
     <button onclick="nav('screen-link-aadhaar')" class="text-primary flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant mr-2">
       <span class="material-symbols-outlined">arrow_back</span>
     </button>
-    <h1 class="text-headline-md font-bold text-primary flex-1" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
   <main class="flex-1 px-5 py-6 flex flex-col max-w-lg mx-auto w-full pb-28">
@@ -483,7 +492,7 @@
 <div id="screen-dbt-setup" class="screen">
   <header class="border-b border-outline-variant w-full sticky top-0 flex items-center px-5 py-2.5 z-40 bg-white">
     <button onclick="nav('screen-land-details')" class="p-2 mr-2 text-primary flex items-center justify-center h-10 w-10 rounded-full hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-    <div class="flex items-center gap-2 flex-1"><span class="material-symbols-outlined text-primary icon-fill">grass</span><h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')"><span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span><h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
     <button onclick="toggleProfileModal()" class="flex items-center justify-center h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container mr-2 shadow-sm"><span class="material-symbols-outlined">person</span></button>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
@@ -790,9 +799,12 @@
 <div id="screen-nearby-mandis" class="screen">
   <header class="border-b border-outline-variant w-full sticky top-0 flex items-center px-5 py-2.5 z-40 bg-surface-container-lowest">
     <button onclick="toggleDrawer()" class="text-primary p-2 rounded-full hover:bg-surface-variant mr-2"><span class="material-symbols-outlined">menu</span></button>
-    <h1 class="text-headline-sm font-bold text-primary flex items-center gap-2 flex-1"><span class="material-symbols-outlined icon-fill">agriculture</span>Kisan Setu | किसान सेतु</h1>
-    <button onclick="toggleLanguageModal()" class="flex items-center gap-1 px-3 py-1 rounded-full border border-outline text-primary text-sm font-medium mr-2"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">EN/हि</span></button>
-    <button onclick="toggleProfileModal()" class="h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm"><span class="material-symbols-outlined">person</span></button>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
+    <button onclick="toggleProfileModal()" class="h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm mr-2"><span class="material-symbols-outlined">person</span></button>
+    <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
   <main class="flex-1 px-5 py-5 flex flex-col gap-4 pb-28 max-w-3xl mx-auto w-full">
     <div>
@@ -1063,7 +1075,10 @@
 <div id="screen-mandi-token" class="screen">
   <header class="bg-surface border-b border-outline-variant w-full sticky top-0 flex items-center px-5 py-2.5 z-40">
     <button onclick="nav('screen-dashboard')" class="text-primary p-2 rounded-full hover:bg-surface-variant mr-2"><span class="material-symbols-outlined">arrow_back</span></button>
-    <h1 class="text-headline-md font-bold text-primary flex-1" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-md font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
     <button onclick="toggleProfileModal()" class="flex items-center justify-center h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container mr-2 shadow-sm"><span class="material-symbols-outlined">person</span></button>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
@@ -1309,7 +1324,10 @@
 <div id="screen-procurement" class="screen">
   <header class="bg-surface border-b border-outline-variant w-full sticky top-0 flex items-center px-5 py-2.5 z-40 bg-surface-container-lowest">
     <button onclick="toggleDrawer()" class="mr-2 text-primary p-2 rounded-full hover:bg-surface-variant flex items-center justify-center h-10 w-10"><span class="material-symbols-outlined">menu</span></button>
-    <h1 class="text-headline-sm font-bold text-primary flex-1" data-i18n="app_title"><span class="material-symbols-outlined mr-1 align-middle icon-fill">agriculture</span>Kisan Setu | किसान सेतु</h1>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')">
+      <span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span>
+      <h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1>
+    </div>
     <button onclick="toggleProfileModal()" class="flex items-center justify-center h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container mr-2 shadow-sm"><span class="material-symbols-outlined">person</span></button>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
@@ -1412,7 +1430,7 @@
 <div id="screen-payments" class="screen">
   <header class="bg-surface-container-lowest border-b border-outline-variant w-full sticky top-0 flex items-center px-5 py-2.5 z-40">
     <button onclick="toggleDrawer()" class="mr-2 text-primary p-2 rounded-full hover:bg-surface-variant flex items-center justify-center h-10 w-10"><span class="material-symbols-outlined">menu</span></button>
-    <div class="flex items-center gap-2 flex-1"><span class="material-symbols-outlined text-primary icon-fill">agriculture</span><h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
+    <div class="flex items-center gap-2 flex-1 cursor-pointer" onclick="nav('screen-dashboard')"><span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span><h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
     <button onclick="toggleProfileModal()" class="flex items-center justify-center h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container mr-2 shadow-sm"><span class="material-symbols-outlined">person</span></button>
     <button onclick="toggleLanguageModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs"><span class="material-symbols-outlined text-[18px]">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span></button>
   </header>
@@ -1494,7 +1512,7 @@
 <div id="screen-help" class="screen">
   <header class="bg-white border-b border-outline-variant w-full sticky top-0 flex items-center px-5 z-50 py-2.5">
     <button onclick="nav('screen-dashboard')" class="text-primary p-2 rounded-full hover:bg-surface-variant flex items-center justify-center h-10 w-10 mr-2"><span class="material-symbols-outlined">arrow_back</span></button>
-    <div class="flex-1 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-3xl icon-fill">agriculture</span><h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
+    <div class="flex-1 flex items-center gap-2 cursor-pointer" onclick="nav('screen-dashboard')"><span class="material-symbols-outlined text-primary text-2xl icon-fill">agriculture</span><h1 class="text-headline-sm font-bold text-primary" data-i18n="app_title">Kisan Setu | किसान सेतु</h1></div>
     <button onclick="toggleProfileModal()" class="flex items-center justify-center h-10 w-10 rounded-full text-primary hover:bg-surface-variant"><span class="material-symbols-outlined">account_circle</span></button>
   </header>
   <main class="flex-1 px-5 flex flex-col gap-5 py-5 pb-28 max-w-3xl mx-auto w-full">
@@ -2135,7 +2153,7 @@ let appLanguage = 'hi';
 // ==========================================
 const i18nData = {
   en: {
-    app_title: '<span class="material-symbols-outlined mr-1 align-middle icon-fill">agriculture</span>Kisan Setu',
+    app_title: 'Kisan Setu',
     nav_home: 'Home',
     nav_track: 'Track',
     nav_mandis: 'Mandis',
@@ -2357,7 +2375,7 @@ const i18nData = {
 
   },
   hi: {
-    app_title: '<span class="material-symbols-outlined mr-1 align-middle icon-fill">agriculture</span>किसान सेतु',
+    app_title: 'किसान सेतु',
     nav_home: 'होम',
     nav_track: 'ट्रैक',
     nav_mandis: 'मंडियां',
@@ -2579,7 +2597,7 @@ const i18nData = {
 
   },
   pa: {
-    app_title: '<span class="material-symbols-outlined mr-1 align-middle icon-fill">agriculture</span>ਕਿਸਾਨ ਸੇਤੂ',
+    app_title: 'ਕਿਸਾਨ ਸੇਤੂ',
     nav_home: 'ਹੋਮ',
     nav_track: 'ਟ੍ਰੈਕ',
     nav_mandis: 'ਮੰਡੀਆਂ',
@@ -2801,7 +2819,7 @@ const i18nData = {
 
   },
   mr: {
-    app_title: '<span class="material-symbols-outlined mr-1 align-middle icon-fill">agriculture</span>किसान सेतू',
+    app_title: 'किसान सेतू',
     nav_home: 'होम',
     nav_track: 'ट्रॅक',
     nav_mandis: 'बाजार',
@@ -4306,17 +4324,27 @@ function openBookingForMandi(mandiName) {
   showToast(`Booking for: ${mandiName.split('(')[0].trim()}`, 'location_on');
 }
 
-function filterMandis(query) {
-  const q = query.toLowerCase().trim();
-  document.querySelectorAll('.mandi-card').forEach(card => {
-    const name = card.getAttribute('data-name') || '';
-    if (!q || name.includes(q)) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
+function debounce(fn, delay = 150) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
 }
+
+let cachedMandiCards = null;
+function filterMandis(query) {
+  const q = (query || '').toLowerCase().trim();
+  if (!cachedMandiCards || cachedMandiCards.length === 0) {
+    cachedMandiCards = document.querySelectorAll('.mandi-card');
+  }
+  for (let i = 0; i < cachedMandiCards.length; i++) {
+    const card = cachedMandiCards[i];
+    const name = (card.getAttribute('data-name') || '').toLowerCase();
+    card.style.display = (!q || name.includes(q)) ? 'block' : 'none';
+  }
+}
+const debouncedFilterMandis = debounce(filterMandis, 150);
 
 function toggleMandiSort() {
   const container = document.getElementById('mandis-list-container');
@@ -4492,26 +4520,35 @@ async function fetchVerifiedPfmsVoucher(refId, mintParams = null) {
   return null;
 }
 
+const ModalManager = {
+  open(id, onOpen) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (typeof onOpen === 'function') onOpen();
+    }
+  },
+  close(id, onClose) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      if (typeof onClose === 'function') onClose();
+    }
+  }
+};
+
 async function showReceiptModal(type = 'token', refId = null, extra = null) {
   currentReceiptType = type;
   if (type === 'quality' && typeof refId === 'string' && refId.startsWith('#')) {
     currentQualityLotId = refId;
   }
-
-  const modal = document.getElementById('receipt-modal');
-  if (modal) {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    await switchReceiptTab(type, refId, extra);
-  }
+  ModalManager.open('receipt-modal', () => switchReceiptTab(type, refId, extra));
 }
 
 function closeReceiptModal() {
-  const modal = document.getElementById('receipt-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
+  ModalManager.close('receipt-modal');
 }
 
 async function switchReceiptTab(type, refId = null, extra = null) {
@@ -5100,20 +5137,13 @@ function renderWeatherWidget(data) {
 }
 
 function openWeatherModal() {
-  const modal = document.getElementById('weather-detail-modal');
-  if (modal) {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+  ModalManager.open('weather-detail-modal', () => {
     if (currentWeatherCache) renderWeatherWidget(currentWeatherCache);
-  }
+  });
 }
 
 function closeWeatherModal() {
-  const modal = document.getElementById('weather-detail-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
+  ModalManager.close('weather-detail-modal');
 }
 
 async function fetchLiveMarketPrices(commodity = 'Wheat', state = 'Haryana') {
@@ -5207,20 +5237,11 @@ async function checkSqlDbHealth() {
 }
 
 function openSqlDbModal() {
-  const modal = document.getElementById('sql-db-modal');
-  if (modal) {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    refreshSqlDbInspector();
-  }
+  ModalManager.open('sql-db-modal', refreshSqlDbInspector);
 }
 
 function closeSqlDbModal() {
-  const modal = document.getElementById('sql-db-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
+  ModalManager.close('sql-db-modal');
 }
 
 function switchDbTab(tabName) {
@@ -5388,6 +5409,13 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch(e) {
     setAppLanguage('hi');
   }
+
+  // Global ESC key listener to dismiss open modals cleanly
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      ['weather-detail-modal', 'sql-db-modal', 'receipt-modal', 'profile-modal'].forEach(id => ModalManager.close(id));
+    }
+  });
 });
 </script>
 </body>
