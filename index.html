@@ -110,41 +110,147 @@
     </button>
   </header>
   <main class="flex-1 flex flex-col justify-center items-center px-5 py-8">
-    <div class="w-full max-w-sm bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-lg">
-      <div class="flex justify-center mb-6">
-        <div class="w-24 h-24 bg-tertiary-fixed rounded-full flex items-center justify-center border-4 border-primary-container shadow-inner">
-          <span class="material-symbols-outlined text-[48px] text-primary icon-fill">agriculture</span>
-        </div>
-      </div>
-      <h2 class="text-headline-lg font-bold text-primary text-center mb-1" data-i18n="login_welcome">Welcome / स्वागत है</h2>
-      <p class="text-body-md text-on-surface-variant text-center mb-6" data-i18n="login_sub">Enter your 10-digit mobile number to login.</p>
-      <form onsubmit="event.preventDefault();handleLoginSubmit(event)" novalidate>
-        <label class="block text-label-lg text-on-surface mb-1 font-semibold" data-i18n="mobile_label">Mobile Number / मोबाइल नंबर <span class="text-error">*</span></label>
-        <div class="relative flex items-center mb-1">
-          <span class="absolute left-4 text-body-lg font-bold text-primary">+91</span>
-          <input id="login-mobile-input" class="w-full h-[56px] pl-14 pr-4 bg-surface-bright border-2 border-outline rounded-xl text-body-lg font-bold text-on-surface focus:border-primary outline-none transition-all shadow-inner" placeholder="98765 43210" type="tel" maxlength="10" inputmode="numeric">
-        </div>
-        <p id="login-mobile-error" class="hidden text-error text-xs font-semibold mb-3 flex items-center gap-1">
-          <span class="material-symbols-outlined text-sm">error</span><span>Valid 10-digit mobile number is required.</span>
-        </p>
-        <button type="submit" class="w-full h-[56px] bg-primary-container text-on-primary-container text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-primary hover:text-on-primary shadow-md">
-          <span data-i18n="send_otp">Send OTP</span> <span class="material-symbols-outlined">arrow_forward</span>
+    <div class="w-full max-w-md bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant shadow-lg">
+      <!-- Role Segmented Controller (Farmer Login vs Mandi Officer) -->
+      <div class="p-1 bg-surface-container-low rounded-xl mb-5 border border-outline-variant/60 flex items-center gap-1">
+        <button type="button" id="tab-login-farmer" onclick="switchLoginRole('farmer')" class="flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 bg-primary-container text-on-primary font-bold shadow-xs">
+          <span class="material-symbols-outlined text-[18px]">agriculture</span>
+          <span data-i18n="role_farmer">Farmer Login</span>
         </button>
-      </form>
-
-      <!-- Direct 1-Click Demo Login Button -->
-      <div class="relative flex py-4 items-center">
-        <div class="flex-grow border-t border-outline-variant"></div>
-        <span class="flex-shrink mx-3 text-xs text-on-surface-variant uppercase font-bold tracking-wider" data-i18n="direct_demo_tag">Or Instant Access</span>
-        <div class="flex-grow border-t border-outline-variant"></div>
+        <button type="button" id="tab-login-officer" onclick="switchLoginRole('officer')" class="flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-semibold">
+          <span class="material-symbols-outlined text-[18px]">shield_person</span>
+          <span data-i18n="role_officer">Mandi Officer</span>
+        </button>
       </div>
-      <button type="button" onclick="quickDemoLogin()" class="w-full h-[52px] bg-secondary-container text-on-secondary-container text-label-md font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform border border-secondary shadow-md hover:brightness-105">
-        <span class="material-symbols-outlined text-xl">bolt</span> <span data-i18n="direct_demo">Direct Farmer Login (Demo Mode)</span>
-      </button>
 
-      <div class="mt-6 text-center">
-        <p class="text-label-md text-on-surface-variant mb-1.5" data-i18n="new_user">New to Kisan Setu?</p>
-        <button onclick="openRegistrationScreen()" class="text-primary text-label-lg font-bold underline underline-offset-4 hover:opacity-80" data-i18n="register_farmer">Register as Farmer / किसान पंजीकरण</button>
+      <!-- SECTION 1: FARMER LOGIN -->
+      <div id="farmer-login-section" class="transition-opacity duration-200">
+        <div class="flex justify-center mb-5">
+          <div class="w-20 h-20 bg-tertiary-fixed rounded-full flex items-center justify-center border-4 border-primary-container shadow-inner">
+            <span class="material-symbols-outlined text-[42px] text-primary icon-fill">agriculture</span>
+          </div>
+        </div>
+        <h2 class="text-headline-lg font-bold text-primary text-center mb-1" data-i18n="login_welcome">Welcome / स्वागत है</h2>
+        <p class="text-body-md text-on-surface-variant text-center mb-5 text-sm" data-i18n="login_sub">Enter your 10-digit mobile number to login.</p>
+        <form onsubmit="event.preventDefault();handleLoginSubmit(event)" novalidate>
+          <label class="block text-label-md text-on-surface mb-1 font-semibold" data-i18n="mobile_label">Mobile Number / मोबाइल नंबर <span class="text-error">*</span></label>
+          <div class="relative flex items-center mb-1">
+            <span class="absolute left-4 text-body-lg font-bold text-primary">+91</span>
+            <input id="login-mobile-input" class="w-full h-[52px] pl-14 pr-4 bg-surface-bright border-2 border-outline rounded-xl text-body-lg font-bold text-on-surface focus:border-primary outline-none transition-all shadow-inner" placeholder="98765 43210" type="tel" maxlength="10" inputmode="numeric">
+          </div>
+          <p id="login-mobile-error" class="hidden text-error text-xs font-semibold mb-3 flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">error</span><span>Valid 10-digit mobile number is required.</span>
+          </p>
+          <button type="submit" class="w-full h-[52px] bg-primary-container text-on-primary-container text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-primary hover:text-on-primary shadow-md">
+            <span data-i18n="send_otp">Send OTP</span> <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </form>
+
+        <!-- Direct 1-Click Demo Login Button -->
+        <div class="relative flex py-3.5 items-center">
+          <div class="flex-grow border-t border-outline-variant"></div>
+          <span class="flex-shrink mx-3 text-xs text-on-surface-variant uppercase font-bold tracking-wider" data-i18n="direct_demo_tag">Or Instant Access</span>
+          <div class="flex-grow border-t border-outline-variant"></div>
+        </div>
+        <button type="button" onclick="quickDemoLogin()" class="w-full h-[48px] bg-secondary-container text-on-secondary-container text-label-md font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform border border-secondary shadow-md hover:brightness-105">
+          <span class="material-symbols-outlined text-xl">bolt</span> <span data-i18n="direct_demo">Direct Farmer Login (Demo Mode)</span>
+        </button>
+
+        <div class="mt-5 text-center pt-3 border-t border-outline-variant/60">
+          <p class="text-label-md text-on-surface-variant mb-1" data-i18n="new_user">New to Kisan Setu?</p>
+          <button onclick="openRegistrationScreen()" class="text-primary text-label-lg font-bold underline underline-offset-4 hover:opacity-80" data-i18n="register_farmer">Register as Farmer / किसान पंजीकरण</button>
+        </div>
+      </div>
+
+      <!-- SECTION 2: MANDI OFFICER LOGIN -->
+      <div id="officer-login-section" class="hidden transition-opacity duration-200">
+        <div class="text-center mb-4">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-2.5">
+            <span class="material-symbols-outlined text-[16px]">verified</span>
+            <span data-i18n="gov_terminal_badge">Official Government Terminal</span>
+          </div>
+          <div class="flex justify-center mb-3">
+            <div class="w-16 h-16 bg-primary-container/20 rounded-full flex items-center justify-center border-2 border-primary-container shadow-inner">
+              <span class="material-symbols-outlined text-[36px] text-primary">shield_person</span>
+            </div>
+          </div>
+          <h2 class="text-headline-lg font-bold text-primary text-center mb-0.5" data-i18n="officer_login_title">Mandi Officer Login</h2>
+          <p class="text-body-md text-on-surface-variant text-center text-xs" data-i18n="officer_login_sub">Procurement, Quality &amp; Verification Terminal</p>
+        </div>
+
+        <!-- Official Statutory Notice Banner -->
+        <div class="bg-surface-container-low border border-outline-variant/60 rounded-xl p-3 mb-4 text-xs text-on-surface-variant flex items-start gap-2.5">
+          <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">policy</span>
+          <span class="leading-relaxed" data-i18n="statutory_notice">Authorized APMC yard personnel, assayers, and weighing supervisors only. Protected under e-NAM Statutory Norms.</span>
+        </div>
+
+        <form onsubmit="event.preventDefault();handleOfficerLoginSubmit(event)" novalidate class="flex flex-col gap-3">
+          <div>
+            <label class="block text-label-md text-on-surface mb-1 font-semibold text-xs" for="officer-id-input" data-i18n="officer_id_label">Officer ID / Employee Code <span class="text-error">*</span></label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 material-symbols-outlined text-on-surface-variant text-[20px]">badge</span>
+              <input id="officer-id-input" class="w-full h-11 pl-11 pr-4 bg-surface-bright border-2 border-outline rounded-xl font-semibold text-sm text-on-surface focus:border-primary outline-none" placeholder="e.g. MO-2026-KHN-01" required type="text" value="MO-2026-KHN-01">
+            </div>
+            <p id="officer-id-error" class="hidden text-error text-xs font-semibold mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">error</span><span>Officer ID is required.</span>
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-label-md text-on-surface mb-1 font-semibold text-xs" for="officer-yard-select" data-i18n="yard_label">Assigned Mandi Yard <span class="text-error">*</span></label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 material-symbols-outlined text-on-surface-variant text-[20px]">storefront</span>
+              <select id="officer-yard-select" class="w-full h-11 pl-11 pr-8 bg-surface-bright border-2 border-outline rounded-xl font-semibold text-xs sm:text-sm text-on-surface focus:border-primary outline-none appearance-none cursor-pointer">
+                <option value="Khanna APMC Yard (Punjab) - Yard #02" selected>Khanna APMC Yard (Punjab) - Yard #02</option>
+                <option value="Karnal APMC Yard (Haryana) - Main Gate">Karnal APMC Yard (Haryana) - Main Gate</option>
+                <option value="Ludhiana Grain Market (Punjab) - Yard #01">Ludhiana Grain Market (Punjab) - Yard #01</option>
+                <option value="Pune APMC Mandi (Maharashtra) - Gate 2">Pune APMC Mandi (Maharashtra) - Gate 2</option>
+                <option value="Nagpur APMC Market (Maharashtra) - Yard #03">Nagpur APMC Market (Maharashtra) - Yard #03</option>
+              </select>
+              <span class="absolute right-3.5 material-symbols-outlined text-on-surface-variant pointer-events-none text-[20px]">expand_more</span>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-label-md text-on-surface mb-1 font-semibold text-xs" for="officer-pin-input" data-i18n="pin_label">Security PIN / Access Password <span class="text-error">*</span></label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 material-symbols-outlined text-on-surface-variant text-[20px]">lock</span>
+              <input id="officer-pin-input" class="w-full h-11 pl-11 pr-11 bg-surface-bright border-2 border-outline rounded-xl font-semibold text-sm text-on-surface focus:border-primary outline-none tracking-widest" placeholder="Enter 6-digit PIN" required type="password" maxlength="6" value="123456">
+              <button type="button" onclick="toggleOfficerPinVisibility()" class="absolute right-3.5 text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined text-[20px]" id="officerPinEyeIcon">visibility</span>
+              </button>
+            </div>
+            <p id="officer-pin-error" class="hidden text-error text-xs font-semibold mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">error</span><span>Valid 6-digit security PIN is required.</span>
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-on-surface-variant px-0.5">
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" id="officer-remember-session" checked class="rounded border-outline text-primary focus:ring-primary">
+              <span data-i18n="remember_officer">Remember Session</span>
+            </label>
+            <span class="text-secondary font-bold text-[11px] bg-secondary-container/40 px-2 py-0.5 rounded" data-i18n="nic_2fa">NIC 2FA Active</span>
+          </div>
+
+          <button type="submit" class="w-full h-[50px] bg-primary text-on-primary text-label-md font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-primary-container shadow-md mt-1">
+            <span class="material-symbols-outlined text-[20px]">dashboard</span>
+            <span data-i18n="enter_officer_console">Enter Mandi Officer Console</span>
+          </button>
+
+          <!-- Quick 1-Tap Demo Officer Login Button -->
+          <button type="button" onclick="quickOfficerDemoLogin()" class="w-full h-[46px] bg-secondary-container text-on-secondary-container text-label-md font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform border border-secondary shadow-md hover:brightness-105">
+            <span class="material-symbols-outlined text-xl">bolt</span>
+            <span data-i18n="quick_officer_demo">Demo: 1-Tap Login as Dr. V. Sharma</span>
+          </button>
+        </form>
+
+        <div class="mt-4 pt-3 border-t border-outline-variant/60 text-center">
+          <button type="button" onclick="switchLoginRole('farmer')" class="text-primary text-xs font-bold hover:underline inline-flex items-center gap-1" data-i18n="return_to_farmer">
+            <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            <span>Return to Farmer Portal / किसान पोर्टल</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -1586,6 +1692,348 @@
   </nav>
 </div>
 
+<!-- ===== SCREEN 14: MANDI OFFICER CONSOLE ===== -->
+<div id="screen-mandi-officer" class="screen">
+  <!-- Top Navigation Header -->
+  <header class="bg-surface border-b border-outline-variant w-full sticky top-0 flex items-center px-4 py-2.5 z-40">
+    <div class="flex items-center justify-between w-full max-w-4xl mx-auto">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-xs">
+          <span class="material-symbols-outlined text-[20px]">account_balance</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-primary text-sm sm:text-base leading-tight">Kisan Setu</span>
+            <span id="officer-yard-badge" class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container text-[10px] font-bold">Khanna APMC</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span>
+            <span class="text-[11px] text-secondary font-semibold" data-i18n="officer_active_badge">Mandi Officer Active</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button onclick="toggleLanguageModal()" class="flex items-center gap-1 px-2.5 py-1 rounded-full border border-primary/40 bg-primary/5 text-primary text-xs font-bold shadow-xs hover:bg-primary/10 transition-colors">
+          <span class="material-symbols-outlined text-sm">language</span><span class="curr-lang-label">🌐 हिन्दी (HI)</span>
+        </button>
+        <button onclick="toggleDrawer()" class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-primary" title="Menu">
+          <span class="material-symbols-outlined text-lg">apps</span>
+        </button>
+        <button onclick="logoutOfficer()" class="w-8 h-8 rounded-lg bg-error-container/40 hover:bg-error-container flex items-center justify-center text-error" title="Logout">
+          <span class="material-symbols-outlined text-lg">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col w-full max-w-4xl mx-auto px-4 py-4 pb-28 gap-4">
+    <!-- Officer Welcome & Shift Bar -->
+    <div class="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 border border-outline-variant shadow-sm relative overflow-hidden">
+      <div class="absolute -right-8 -top-8 w-28 h-28 bg-primary/5 rounded-full blur-xl pointer-events-none"></div>
+      <div class="flex items-start justify-between relative z-10 gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-lg border-2 border-primary shadow-xs">
+              <span class="material-symbols-outlined text-2xl">shield_person</span>
+            </div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-secondary rounded-full ring-2 ring-surface-container-lowest"></span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h1 id="officer-display-name" class="text-base sm:text-lg font-bold text-on-surface truncate">Dr. Vikramjit Sharma</h1>
+              <span id="officer-designation" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[11px] font-bold">Gazetted Officer</span>
+            </div>
+            <p id="officer-shift-text" class="text-xs text-on-surface-variant truncate font-medium">Shift 01 • Main Gate Yard A</p>
+            <p class="text-[11px] text-outline truncate" id="officer-display-id">Officer ID: MO-2026-KHN-01</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-end shrink-0 bg-surface-container-low px-2.5 py-1.5 rounded-xl border border-outline-variant/60">
+          <div class="flex items-center gap-1 text-on-surface font-bold text-sm">
+            <span class="material-symbols-outlined text-[16px] text-amber-500">wb_sunny</span>
+            <span>31°C</span>
+          </div>
+          <span class="text-[10px] text-on-surface-variant font-medium">Khanna Sunny</span>
+        </div>
+      </div>
+
+      <!-- Shift Status Toggles -->
+      <div class="mt-3.5 pt-3 border-t border-outline-variant/60 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+          <span class="text-xs text-secondary font-bold" id="shift-terminal-status">Gate Pass Terminal Active</span>
+        </div>
+        <button onclick="toggleOfficerShift()" class="px-3 py-1.5 rounded-full bg-primary-container text-on-primary text-xs font-bold hover:bg-primary transition-all flex items-center gap-1 active:scale-95 shadow-xs">
+          <span class="material-symbols-outlined text-[15px]" id="shift-sync-icon">sync_alt</span>
+          <span id="shift-toggle-label">Switch Shift (Day/Eve)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Big Touch Action Strip -->
+    <div class="flex flex-col gap-2">
+      <button id="callNextBtn" onclick="callNextToken()" class="w-full h-14 bg-primary text-on-primary rounded-xl font-bold text-base flex items-center justify-center gap-2.5 shadow-md active:scale-[0.98] transition-transform hover:bg-primary-container">
+        <span class="material-symbols-outlined text-2xl text-secondary-container">volume_up</span>
+        <span id="callNextBtnText">Call Next Token (#TK-420)</span>
+      </button>
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="nav('screen-mandi-token')" class="h-12 bg-surface-container-lowest text-primary rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs border border-outline-variant hover:border-primary active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+          <span>Verify QR Gate Pass</span>
+        </button>
+        <button onclick="nav('screen-procurement')" class="h-12 bg-surface-container-lowest text-primary rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs border border-outline-variant hover:border-primary active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-xl">scale</span>
+          <span>Manual Tare / Weigh</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- High-Density Metrics (2 Columns) -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-sm font-bold text-on-surface uppercase tracking-wider">Mandi Yard Metrics</h2>
+        <span class="text-[11px] text-on-surface-variant font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Live Sync • e-NAM</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <!-- Metric 1: Farmers -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-xs border border-outline-variant flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase">Farmers Today</span>
+            <div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-sm">groups</span>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-2xl font-black text-on-surface leading-none">248</span>
+            <div class="mt-1 flex items-center gap-1 text-[11px] text-secondary font-bold">
+              <span class="material-symbols-outlined text-xs">trending_up</span>
+              <span>+14% vs y'day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric 2: Active Queue -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-xs border border-outline-variant flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase">Active Queue</span>
+            <div class="w-7 h-7 rounded-full bg-surface-container-high text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-sm">local_shipping</span>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-2xl font-black text-on-surface leading-none" id="officer-queue-count">18</span>
+            <div class="mt-1 flex items-center gap-1 text-[11px] text-on-surface-variant font-semibold">
+              <span class="material-symbols-outlined text-xs">schedule</span>
+              <span>Avg wait ~16 min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric 3: Pending Lab -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-xs border border-outline-variant flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase">Pending Lab</span>
+            <div class="w-7 h-7 rounded-full bg-surface-container text-on-surface flex items-center justify-center">
+              <span class="material-symbols-outlined text-sm">biotech</span>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-2xl font-black text-on-surface leading-none">6 Lots</span>
+            <div class="mt-1 flex items-center gap-1 text-[11px] text-on-surface-variant font-semibold">
+              <span class="material-symbols-outlined text-xs">hourglass_top</span>
+              <span>4.2m / test</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric 4: Procured -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-xs border border-outline-variant flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase">Procured Qtl</span>
+            <div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-sm">inventory_2</span>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-2xl font-black text-on-surface leading-none">4,820</span>
+            <div class="mt-1 flex items-center gap-1 text-[11px] text-secondary font-bold">
+              <span class="material-symbols-outlined text-xs">check_circle</span>
+              <span>68% of Goal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric 5: DBT Full Width -->
+        <div class="col-span-2 sm:col-span-4 bg-surface-container-lowest rounded-xl p-3.5 shadow-xs border border-outline-variant flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-bold text-on-surface-variant uppercase">Today's DBT MSP Settlements</span>
+            <div class="flex items-baseline gap-2 mt-0.5">
+              <span class="text-xl sm:text-2xl text-on-surface font-black">₹1.17 Crore</span>
+              <span class="text-xs text-secondary font-bold">100% PFMS Synced ✓</span>
+            </div>
+          </div>
+          <div class="h-10 w-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-2xl">payments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANDI OFFICER COMPLETE MODULE OPERATIONS DIRECT LINKS -->
+    <div class="flex flex-col gap-2 mt-1">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-sm font-bold text-on-surface flex items-center gap-1.5 uppercase tracking-wider">
+          <span class="material-symbols-outlined text-primary text-[18px]">apps</span>
+          <span>Officer Stations &amp; Modules</span>
+        </h2>
+        <span class="text-[11px] text-secondary font-bold bg-secondary-container/40 px-2 py-0.5 rounded-full">6 Stations Active</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <!-- 1. Farmer Verification -->
+        <div onclick="showToast('Gate 01 Verification Station: Farmer UID & Land validated', 'verified')" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">Gate 01</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">1. Farmer Verify</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">UID &amp; Land Check</p>
+          </div>
+        </div>
+
+        <!-- 2. Queue Management -->
+        <div onclick="nav('screen-live-tracker')" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">traffic</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">Yard A</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">2. Queue Flow</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">Traffic &amp; Slots</p>
+          </div>
+        </div>
+
+        <!-- 3. Quality Assay -->
+        <div onclick="nav('screen-procurement')" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">biotech</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">Lab #02</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">3. Quality Assay</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">Moisture &amp; Grade</p>
+          </div>
+        </div>
+
+        <!-- 4. Weighbridge Station -->
+        <div onclick="nav('screen-procurement')" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">scale</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">Scale #04</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">4. Weighbridge</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">Tare &amp; Gross Net</p>
+          </div>
+        </div>
+
+        <!-- 5. DBT Payouts -->
+        <div onclick="nav('screen-payments')" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">PFMS</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">5. DBT Vouchers</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">Direct Bank Credit</p>
+          </div>
+        </div>
+
+        <!-- 6. Daily Mandi Reports -->
+        <div onclick="showMandiDailyReport()" class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant shadow-xs flex flex-col justify-between hover:border-primary transition-all active:scale-95 cursor-pointer">
+          <div class="flex items-center justify-between mb-2">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">summarize</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container">EOD</span>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-on-surface">6. Yard Summary</h3>
+            <p class="text-[11px] text-on-surface-variant line-clamp-1">EOD Official Register</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Vehicle & Farmer Arrival Stream -->
+    <div class="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant shadow-sm mt-1">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-xl">rv_hookup</span>
+          <h2 class="text-sm font-bold text-on-surface">Live Yard Vehicle Stream</h2>
+        </div>
+        <span class="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Updated Just Now</span>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/60 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-on-surface">Token #TK-419 • PB-10-AZ-4920</div>
+            <div class="text-[11px] text-on-surface-variant">Gurpreet Singh • Wheat • 42 Qtl</div>
+          </div>
+          <span class="px-2 py-1 rounded bg-green-100 text-green-800 font-bold text-[10px]">Weighed &amp; Cleared</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/60 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-on-surface">Token #TK-420 • HR-05-BC-1120</div>
+            <div class="text-[11px] text-on-surface-variant">Ram Singh • Wheat • 38 Qtl</div>
+          </div>
+          <span class="px-2 py-1 rounded bg-amber-100 text-amber-800 font-bold text-[10px] animate-pulse">At Weighbridge #04</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/60 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-on-surface">Token #TK-421 • PB-11-K-7789</div>
+            <div class="text-[11px] text-on-surface-variant">Baldev Singh • Mustard • 25 Qtl</div>
+          </div>
+          <span class="px-2 py-1 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">Gate Inspection</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mandi Officer Sticky Bottom Action Nav -->
+  <nav class="bg-surface border-t-2 border-primary fixed bottom-0 w-full z-50 flex justify-around items-center h-[72px] px-2 pb-1 shadow-lg">
+    <button onclick="nav('screen-mandi-officer')" class="flex flex-col items-center justify-center text-primary flex-1 max-w-[80px] px-2 py-1">
+      <span class="material-symbols-outlined text-[24px]">dashboard</span>
+      <span class="text-[11px] font-bold leading-tight mt-0.5">Console</span>
+    </button>
+    <button onclick="nav('screen-live-tracker')" class="flex flex-col items-center justify-center text-on-surface-variant flex-1 max-w-[80px] px-2 py-1">
+      <span class="material-symbols-outlined text-[24px]">local_shipping</span>
+      <span class="text-[11px] font-medium leading-tight mt-0.5" data-i18n="nav_track">Track</span>
+    </button>
+    <button onclick="nav('screen-procurement')" class="flex flex-col items-center justify-center text-on-surface-variant flex-1 max-w-[80px] px-2 py-1">
+      <span class="material-symbols-outlined text-[24px]">high_quality</span>
+      <span class="text-[11px] font-medium leading-tight mt-0.5" data-i18n="nav_quality">Quality</span>
+    </button>
+    <button onclick="nav('screen-payments')" class="flex flex-col items-center justify-center text-on-surface-variant flex-1 max-w-[80px] px-2 py-1">
+      <span class="material-symbols-outlined text-[24px]">payments</span>
+      <span class="text-[11px] font-medium leading-tight mt-0.5" data-i18n="nav_payments">Payments</span>
+    </button>
+    <button onclick="logoutOfficer()" class="flex flex-col items-center justify-center text-error flex-1 max-w-[80px] px-2 py-1">
+      <span class="material-symbols-outlined text-[24px]">logout</span>
+      <span class="text-[11px] font-medium leading-tight mt-0.5">Logout</span>
+    </button>
+  </nav>
+</div>
+
 <!-- ========================================================================= -->
 <!-- GLOBAL MODALS: NAVIGATION DRAWER, PROFILE, SAHAYAK AI, RECEIPTS, ETC.    -->
 <!-- ========================================================================= -->
@@ -1614,6 +2062,9 @@
         
         <button onclick="drawerNav('screen-dashboard')" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-surface-container text-left text-primary font-bold text-sm">
           <span class="material-symbols-outlined text-xl">home</span> 🏠 Home Dashboard
+        </button>
+        <button id="drawer-officer-btn" onclick="drawerNav('screen-mandi-officer')" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-surface-container text-left text-primary font-bold text-sm bg-primary/5 border border-primary/20">
+          <span class="material-symbols-outlined text-xl text-primary">shield_person</span> 🛡️ Mandi Officer Console
         </button>
         <button onclick="drawerNav('screen-book-slot')" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-surface-container text-left text-primary font-bold text-sm">
           <span class="material-symbols-outlined text-xl">calendar_add_on</span> 📅 Smart Slot Booking
@@ -2170,6 +2621,22 @@ const i18nData = {
     login_phone_label: 'Registered Mobile Number',
     mobile_label: 'Mobile Number',
     login_pass_label: 'Security PIN / Password',
+    role_farmer: 'Farmer Login',
+    role_officer: 'Mandi Officer',
+    officer_login_title: 'Mandi Officer Login',
+    officer_login_sub: 'Procurement, Quality &amp; Verification Terminal',
+    gov_terminal_badge: 'Official Government Terminal',
+    statutory_notice: 'Authorized APMC yard personnel, assayers, and weighing supervisors only. Protected under e-NAM Statutory Norms.',
+    officer_id_label: 'Officer ID / Employee Code',
+    yard_label: 'Assigned Mandi Yard',
+    pin_label: 'Security PIN / Access Password',
+    remember_officer: 'Remember Session',
+    nic_2fa: 'NIC 2FA Active',
+    enter_officer_console: 'Enter Mandi Officer Console',
+    quick_officer_demo: 'Demo: 1-Tap Login as Dr. V. Sharma',
+    return_to_farmer: 'Return to Farmer Portal / किसान पोर्टल',
+    officer_console_title: 'Mandi Officer Console',
+    officer_active_badge: 'Mandi Officer Active',
     remember_me: 'Remember Me',
     forgot_pin: 'Forgot PIN?',
     send_otp_btn: 'Send Login OTP',
@@ -2392,6 +2859,22 @@ const i18nData = {
     login_phone_label: 'पंजीकृत मोबाइल नंबर',
     mobile_label: 'मोबाइल नंबर',
     login_pass_label: 'सुरक्षा पिन / पासवर्ड',
+    role_farmer: 'किसान लॉगिन',
+    role_officer: 'मंडी अधिकारी',
+    officer_login_title: 'मंडी अधिकारी लॉगिन',
+    officer_login_sub: 'खरीद, गुणवत्ता एवं सत्यापन टर्मिनल',
+    gov_terminal_badge: 'आधिकारिक सरकारी टर्मिनल',
+    statutory_notice: 'केवल अधिकृत एपीएमसी मंडी कर्मी, गुणवत्ता परीक्षक एवं तुलाई पर्यवेक्षक। ई-नाम वैधानिक नियमों के तहत सुरक्षित।',
+    officer_id_label: 'अधिकारी आईडी / कर्मचारी कोड',
+    yard_label: 'आवंटित मंडी यार्ड',
+    pin_label: 'सुरक्षा पिन / एक्सेस पासवर्ड',
+    remember_officer: 'सत्र याद रखें',
+    nic_2fa: 'एनआईसी 2FA सक्रिय',
+    enter_officer_console: 'मंडी अधिकारी कंसोल में प्रवेश करें',
+    quick_officer_demo: 'डेमो: 1-टैप लॉगिन (डॉ. वी. शर्मा - खन्ना मंडी)',
+    return_to_farmer: 'किसान पोर्टल पर वापस जाएं',
+    officer_console_title: 'मंडी अधिकारी कंसोल',
+    officer_active_badge: 'मंडी अधिकारी सक्रिय',
     remember_me: 'मुझे याद रखें',
     forgot_pin: 'पिन भूल गए?',
     send_otp_btn: 'लॉगिन ओटीपी भेजें',
@@ -2614,6 +3097,22 @@ const i18nData = {
     login_phone_label: 'ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ',
     mobile_label: 'ਮੋਬਾਈਲ ਨੰਬਰ',
     login_pass_label: 'ਸੁਰੱਖਿਆ ਪਿੰਨ / ਪਾਸਵਰਡ',
+    role_farmer: 'ਕਿਸਾਨ ਲੌਗਇਨ',
+    role_officer: 'ਮੰਡੀ ਅਧਿਕਾਰੀ',
+    officer_login_title: 'ਮੰਡੀ ਅਧਿਕਾਰੀ ਲੌਗਇਨ',
+    officer_login_sub: 'ਖਰੀਦ, ਗੁਣਵੱਤਾ ਅਤੇ ਪੜਤਾਲ ਟਰਮੀਨਲ',
+    gov_terminal_badge: 'ਅਧਿਕਾਰਤ ਸਰਕਾਰੀ ਟਰਮੀਨਲ',
+    statutory_notice: 'ਸਿਰਫ਼ ਅਧਿਕਾਰਤ ਏ.ਪੀ.ਐਮ.ਸੀ ਮੰਡੀ ਕਰਮਚਾਰੀ, ਗੁਣਵੱਤਾ ਪਰਖਕਰਤਾ ਅਤੇ ਤੋਲ ਸੁਪਰਵਾਈਜ਼ਰ। ਈ-ਨਾਮ ਨਿਯਮਾਂ ਅਧੀਨ ਸੁਰੱਖਿਅਤ।',
+    officer_id_label: 'ਅਧਿਕਾਰੀ ਆਈ.ਡੀ / ਕਰਮਚਾਰੀ ਕੋਡ',
+    yard_label: 'ਅਲਾਟ ਕੀਤੀ ਮੰਡੀ ਯਾਰਡ',
+    pin_label: 'ਸੁਰੱਖਿਆ ਪਿੰਨ / ਐਕਸੈਸ ਪਾਸਵਰਡ',
+    remember_officer: 'ਸੈਸ਼ਨ ਯਾਦ ਰੱਖੋ',
+    nic_2fa: 'ਐਨ.ਆਈ.ਸੀ 2FA ਕਿਰਿਆਸ਼ੀਲ',
+    enter_officer_console: 'ਮੰਡੀ ਅਧਿਕਾਰੀ ਕੰਸੋਲ ਵਿੱਚ ਦਾਖਲ ਹੋਵੋ',
+    quick_officer_demo: 'ਡੈਮੋ: 1-ਟੈਪ ਲੌਗਇਨ (ਡਾ. ਵੀ. ਸ਼ਰਮਾ - ਖੰਨਾ ਮੰਡੀ)',
+    return_to_farmer: 'ਕਿਸਾਨ ਪੋਰਟਲ \'ਤੇ ਵਾਪਸ ਜਾਓ',
+    officer_console_title: 'ਮੰਡੀ ਅਧਿਕਾਰੀ ਕੰਸੋਲ',
+    officer_active_badge: 'ਮੰਡੀ ਅਧਿਕਾਰੀ ਕਿਰਿਆਸ਼ੀਲ',
     remember_me: 'ਮੈਨੂੰ ਯਾਦ ਰੱਖੋ',
     forgot_pin: 'ਪਿੰਨ ਭੁੱਲ ਗਏ?',
     send_otp_btn: 'ਲਾਗਇਨ ਓ.ਟੀ.ਪੀ ਭੇਜੋ',
@@ -2836,6 +3335,22 @@ const i18nData = {
     login_phone_label: 'नोंदणीकृत मोबाईल नंबर',
     mobile_label: 'मोबाईल नंबर',
     login_pass_label: 'सुरक्षा पिन / पासवर्ड',
+    role_farmer: 'शेतकरी लॉगिन',
+    role_officer: 'मंडी अधिकारी',
+    officer_login_title: 'मंडी अधिकारी लॉगिन',
+    officer_login_sub: 'खरेदी, गुणवत्ता आणि पडताळणी टर्मिनल',
+    gov_terminal_badge: 'अधिकृत शासकीय टर्मिनल',
+    statutory_notice: 'फक्त अधिकृत एपीएमसी मंडी कर्मचारी, गुणवत्ता परीक्षक आणि वजन पर्यवेक्षक। ई-नाम नियमांनुसार संरक्षित।',
+    officer_id_label: 'अधिकारी आयडी / कर्मचारी कोड',
+    yard_label: 'नेमून दिलेले मंडी यार्ड',
+    pin_label: 'सुरक्षा पिन / पासवर्ड',
+    remember_officer: 'सत्र लक्षात ठेवा',
+    nic_2fa: 'एनआयसी 2FA सक्रिय',
+    enter_officer_console: 'मंडी अधिकारी कन्सोलमध्ये प्रवेश करा',
+    quick_officer_demo: 'डेमो: 1-टॅप लॉगिन (डॉ. व्ही. शर्मा - खन्ना मंडी)',
+    return_to_farmer: 'शेतकरी पोर्टलवर परत जा',
+    officer_console_title: 'मंडी अधिकारी कन्सोल',
+    officer_active_badge: 'मंडी अधिकारी सक्रिय',
     remember_me: 'मला लक्षात ठेवा',
     forgot_pin: 'पिन विसरलात?',
     send_otp_btn: 'लॉगिन ओटीपी पाठवा',
@@ -3830,6 +4345,214 @@ function quickDemoLogin() {
   syncFarmerToSqlDb(ramSingh);
   showToast('Logging in as Ram Singh (Demo Mode)...', 'verified');
   nav('screen-dashboard');
+}
+
+// ==========================================
+// MANDI OFFICER AUTHENTICATION & CONSOLE LOGIC
+// ==========================================
+window._activeLoginRole = 'farmer';
+
+function switchLoginRole(role) {
+  window._activeLoginRole = role;
+  const farmerSection = document.getElementById('farmer-login-section');
+  const officerSection = document.getElementById('officer-login-section');
+  const tabFarmer = document.getElementById('tab-login-farmer');
+  const tabOfficer = document.getElementById('tab-login-officer');
+
+  if (role === 'officer') {
+    if (farmerSection) farmerSection.classList.add('hidden');
+    if (officerSection) officerSection.classList.remove('hidden');
+
+    if (tabOfficer) {
+      tabOfficer.className = "flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 bg-primary-container text-on-primary font-bold shadow-xs";
+    }
+    if (tabFarmer) {
+      tabFarmer.className = "flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-semibold";
+    }
+  } else {
+    if (officerSection) officerSection.classList.add('hidden');
+    if (farmerSection) farmerSection.classList.remove('hidden');
+
+    if (tabFarmer) {
+      tabFarmer.className = "flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 bg-primary-container text-on-primary font-bold shadow-xs";
+    }
+    if (tabOfficer) {
+      tabOfficer.className = "flex-1 py-2.5 px-3 rounded-lg text-label-md text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-semibold";
+    }
+  }
+}
+
+function toggleOfficerPinVisibility() {
+  const pinInput = document.getElementById('officer-pin-input');
+  const eyeIcon = document.getElementById('officerPinEyeIcon');
+  if (!pinInput || !eyeIcon) return;
+  if (pinInput.type === 'password') {
+    pinInput.type = 'text';
+    eyeIcon.textContent = 'visibility_off';
+  } else {
+    pinInput.type = 'password';
+    eyeIcon.textContent = 'visibility';
+  }
+}
+
+function handleOfficerLoginSubmit(event) {
+  if (event && event.preventDefault) event.preventDefault();
+
+  const idInput = document.getElementById('officer-id-input');
+  const yardSelect = document.getElementById('officer-yard-select');
+  const pinInput = document.getElementById('officer-pin-input');
+
+  const idErr = document.getElementById('officer-id-error');
+  const pinErr = document.getElementById('officer-pin-error');
+
+  let valid = true;
+  const officerId = (idInput?.value || '').trim();
+  const yardName = yardSelect?.value || 'Khanna APMC Yard (Punjab) - Yard #02';
+  const pin = (pinInput?.value || '').trim();
+
+  if (!officerId) {
+    if (idErr) idErr.classList.remove('hidden');
+    valid = false;
+  } else {
+    if (idErr) idErr.classList.add('hidden');
+  }
+
+  if (!pin || pin.length < 4) {
+    if (pinErr) pinErr.classList.remove('hidden');
+    valid = false;
+  } else {
+    if (pinErr) pinErr.classList.add('hidden');
+  }
+
+  if (!valid) return false;
+
+  const officerSession = {
+    role: 'officer',
+    id: officerId,
+    officer_id: officerId,
+    name: 'Dr. Vikramjit Sharma',
+    full_name: 'Dr. Vikramjit Sharma',
+    designation: 'Mandi Officer (Gazetted)',
+    mandi_yard: yardName,
+    yard_name: yardName,
+    shift: 'Shift 01 • Main Gate Yard A',
+    phone: '9876543210',
+    is_officer: true
+  };
+
+  saveSession(officerSession);
+  localStorage.setItem('kisan_officer_id', officerId);
+  localStorage.setItem('kisan_officer_yard', yardName);
+
+  applyOfficerToUI(officerSession);
+  showToast('Welcome Dr. V. Sharma! Mandi Officer Console Active.', 'verified');
+  nav('screen-mandi-officer');
+  return true;
+}
+
+function quickOfficerDemoLogin() {
+  const demoOfficer = {
+    role: 'officer',
+    id: 'MO-2026-KHN-01',
+    officer_id: 'MO-2026-KHN-01',
+    name: 'Dr. Vikramjit Sharma',
+    full_name: 'Dr. Vikramjit Sharma',
+    designation: 'Mandi Officer (Gazetted)',
+    mandi_yard: 'Khanna APMC Yard (Punjab) - Yard #02',
+    yard_name: 'Khanna APMC Yard (Punjab) - Yard #02',
+    shift: 'Shift 01 • Main Gate Yard A',
+    phone: '9876543210',
+    is_officer: true
+  };
+
+  const idInput = document.getElementById('officer-id-input');
+  if (idInput) idInput.value = demoOfficer.officer_id;
+  const yardSelect = document.getElementById('officer-yard-select');
+  if (yardSelect) yardSelect.value = demoOfficer.mandi_yard;
+  const pinInput = document.getElementById('officer-pin-input');
+  if (pinInput) pinInput.value = '123456';
+
+  saveSession(demoOfficer);
+  localStorage.setItem('kisan_officer_id', demoOfficer.officer_id);
+  localStorage.setItem('kisan_officer_yard', demoOfficer.mandi_yard);
+
+  applyOfficerToUI(demoOfficer);
+  showToast('Logging in as Dr. V. Sharma (Mandi Officer Demo)...', 'verified');
+  nav('screen-mandi-officer');
+}
+
+function applyOfficerToUI(officer) {
+  window._activeOfficer = officer;
+  window._userRole = 'officer';
+
+  const oName = officer.full_name || officer.name || 'Dr. Vikramjit Sharma';
+  const oId = officer.officer_id || officer.id || 'MO-2026-KHN-01';
+  const oYard = officer.yard_name || officer.mandi_yard || 'Khanna APMC Yard (Punjab)';
+  const oShift = officer.shift || 'Shift 01 • Main Gate Yard A';
+  const oDesig = officer.designation || 'Mandi Officer (Gazetted)';
+
+  const nameEl = document.getElementById('officer-display-name');
+  if (nameEl) nameEl.textContent = oName;
+
+  const idEl = document.getElementById('officer-display-id');
+  if (idEl) idEl.textContent = `Officer ID: ${oId}`;
+
+  const yardBadgeEl = document.getElementById('officer-yard-badge');
+  if (yardBadgeEl) yardBadgeEl.textContent = oYard.split(' ')[0] + ' APMC';
+
+  const shiftEl = document.getElementById('officer-shift-text');
+  if (shiftEl) shiftEl.textContent = oShift;
+
+  const desigEl = document.getElementById('officer-designation');
+  if (desigEl) desigEl.textContent = oDesig;
+
+  // Drawer Profile Sync
+  const drawerAvatar = document.getElementById('drawer-avatar-initials');
+  if (drawerAvatar) drawerAvatar.textContent = 'VS';
+  const drawerName = document.getElementById('drawer-farmer-name');
+  if (drawerName) drawerName.textContent = `${oName} (Officer)`;
+  const drawerId = document.getElementById('drawer-farmer-id');
+  if (drawerId) drawerId.textContent = `Officer Code: ${oId}`;
+}
+
+function logoutOfficer() {
+  clearSession();
+  localStorage.removeItem('kisan_officer_id');
+  localStorage.removeItem('kisan_officer_yard');
+  window._activeOfficer = null;
+  window._userRole = 'farmer';
+  showToast('Logged out of Mandi Officer Console.', 'logout');
+  nav('screen-login');
+}
+
+let _currentTokenNumber = 420;
+function callNextToken() {
+  _currentTokenNumber++;
+  const btnText = document.getElementById('callNextBtnText');
+  if (btnText) {
+    btnText.textContent = `Call Next Token (#TK-${_currentTokenNumber})`;
+  }
+  showToast(`📣 Calling Token #TK-${_currentTokenNumber} to Gate 01 Weighbridge Station!`, 'announcement');
+}
+
+let _isDayShift = true;
+function toggleOfficerShift() {
+  _isDayShift = !_isDayShift;
+  const shiftText = document.getElementById('officer-shift-text');
+  const terminalStatus = document.getElementById('shift-terminal-status');
+  if (_isDayShift) {
+    if (shiftText) shiftText.textContent = 'Shift 01 • Main Gate Yard A (Day)';
+    if (terminalStatus) terminalStatus.textContent = 'Gate Pass Terminal Active (Shift 01)';
+    showToast('Switched to Shift 01 (Day - Main Gate Yard A)', 'verified');
+  } else {
+    if (shiftText) shiftText.textContent = 'Shift 02 • Weighment Platform B (Evening)';
+    if (terminalStatus) terminalStatus.textContent = 'Procurement Terminal Active (Shift 02)';
+    showToast('Switched to Shift 02 (Evening - Platform B)', 'verified');
+  }
+}
+
+function showMandiDailyReport() {
+  showToast('Official APMC EOD Summary: 248 Farmers, 4,820 Qtl Procured, ₹1.17 Cr Settled.', 'verified');
 }
 
 async function handleRegistrationSubmit(event) {
@@ -5392,7 +6115,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Restore active farmer session & personalize UI
   const session = loadSession();
   if (session) {
-    applyFarmerToUI(session);
+    if (session.role === 'officer') {
+      applyOfficerToUI(session);
+      nav('screen-mandi-officer');
+    } else {
+      applyFarmerToUI(session);
+    }
   }
 
   renderCalendar();

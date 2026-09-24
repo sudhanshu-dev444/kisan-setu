@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#f8f9ff", "surface-dim": "#ccdbf4", "outline-variant": "#bfc9c3", "outline": "#707974", "error-container": "#ffdad6", "surface-container-highest": "#d5e3fd", "on-error": "#ffffff", "on-tertiary-container": "#f69f0d", "secondary": "#006c4e", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#653e00", "tertiary-container": "#623c00", "tertiary": "#442800", "secondary-fixed-dim": "#7bd8b1", "primary-fixed-dim": "#95d3ba", "inverse-surface": "#233144", "inverse-primary": "#95d3ba", "secondary-fixed": "#97f5cc", "surface-container-lowest": "#ffffff", "on-secondary-container": "#007353", "surface-tint": "#2b6954", "tertiary-fixed-dim": "#ffb95f", "on-error-container": "#93000a", "on-primary-container": "#80bea6", "secondary-container": "#97f5cc", "surface-bright": "#f8f9ff", "on-secondary-fixed-variant": "#00513a", "on-tertiary-fixed": "#2a1700", "primary-container": "#064e3b", "on-tertiary": "#ffffff", "surface-variant": "#d5e3fd", "primary-fixed": "#b0f0d6", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "background": "#f8f9ff", "error": "#ba1a1a", "surface-container-high": "#dde9ff", "on-primary-fixed": "#002117", "on-secondary-fixed": "#002115", "on-surface-variant": "#404944", "inverse-on-surface": "#ebf1ff", "tertiary-fixed": "#ffddb8", "on-surface": "#0d1c2f", "surface-container": "#e6eeff", "primary": "#003527", "on-background": "#0d1c2f", "on-primary-fixed-variant": "#0b513d" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "space-lg": "1.5rem", "space-xl": "2rem", "margin-md": "1.5rem", "gutter-md": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-sm": "0.5rem", "margin-lg": "2rem", "space-md": "1rem", "gutter-lg": "1.5rem" }, fontFamily: { "title-md": ["Inter"], "body-lg": ["Inter"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "label-lg": ["Inter"], "title-lg": ["Plus Jakarta Sans"], "label-md": ["Inter"], "numeric-metric": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"] }, fontSize: { "title-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "title-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }], "numeric-metric": ["32px", { "lineHeight": "38px", "fontWeight": "700" }], "headline-lg-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe border-b border-outline-variant/40">
+  <div class="h-16 px-gutter flex items-center justify-between max-w-md mx-auto">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="../mandi_officer_mobile_dashboard/code.html" class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors shrink-0" title="Back to Mandi Dashboard">
+          <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+        </a>
+        <div class="flex flex-col min-w-0">
+          <span class="font-title-md text-sm text-primary tracking-tight font-bold truncate">Farmer Verification</span>
+          <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+            <span class="truncate">Khanna APMC Yard</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0"></span>
+            <span class="text-secondary font-medium shrink-0">Gate 01</span>
+          </div>
+        </div>
+      </div>
+    <div class="flex items-center gap-1 shrink-0">
+      <button onclick="openModuleDrawer()" aria-label="All Modules" class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-primary transition-colors" title="All Mandi Modules">
+        <span class="material-symbols-outlined text-[20px]">apps</span>
+      </button>
+      <a href="../login/code.html" aria-label="Logout to Login" class="w-9 h-9 rounded-lg bg-error-container/40 hover:bg-error-container flex items-center justify-center text-error transition-colors" title="Logout to Login Screen">
+        <span class="material-symbols-outlined text-[19px]">logout</span>
+      </a>
+    </div>
+  </div>
+</header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin pb-space-lg gap-space-md">
+<!-- Yard Context & Time Header -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Statutory Verification Desk</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded-full text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Rabi Marketing '25</span>
+</div>
+</div>
+<!-- Search & Quick Barcode Scan Section -->
+<div class="flex flex-col gap-space-sm">
+<div class="relative flex items-center shadow-sm">
+<span class="absolute left-3 material-symbols-outlined text-outline text-[20px] pointer-events-none">search</span>
+<input class="w-full h-12 pl-10 pr-12 rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary shadow-sm" id="farmerSearchInput" placeholder="Farmer UID, Token, or Anaaj ID..." type="text" value="94812"/>
+<button aria-label="Scan Physical Slip or QR" class="absolute right-1.5 w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary active:scale-95 transition-transform" id="btnScanBarcode">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+</button>
+</div>
+<!-- Status Filter Pills -->
+<div class="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+<button class="filter-pill flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container text-on-primary font-label-md text-label-md whitespace-nowrap shadow-sm">
+<span>All</span>
+<span class="bg-surface-container-lowest/20 px-1.5 py-0.2 rounded-full text-label-sm">197</span>
+</button>
+<button class="filter-pill flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span>Pending</span>
+<span class="bg-surface-container-high px-1.5 py-0.2 rounded-full text-label-sm font-semibold">12</span>
+</button>
+<button class="filter-pill flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Approved</span>
+<span class="bg-surface-container-high px-1.5 py-0.2 rounded-full text-label-sm">182</span>
+</button>
+<button class="filter-pill flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Needs Correction</span>
+<span class="bg-surface-container-high px-1.5 py-0.2 rounded-full text-label-sm">3</span>
+</button>
+</div>
+</div>
+<!-- ACTIVE DOSSIER HERO CARD -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md overflow-hidden flex flex-col transition-all duration-300" id="activeDossierCard">
+<!-- Card Authority Header Banner -->
+<div class="bg-primary-container px-space-md py- space-sm flex items-center justify-between text-on-primary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Priority Dossier · Token #KHN-089</span>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary px-2 py-0.5 rounded text-on-secondary font-medium">Ready For Pass</span>
+</div>
+<!-- Farmer Identity Row -->
+<div class="p-space-md flex flex-col gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-14 h-14 rounded-xl overflow-hidden bg-surface-container-highest shrink-0 shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of an Indian Sikh farmer wearing a traditional saffron turban, weathered kind expression, natural outdoor sunlight at Punjab grain market yard, photorealistic documentary style, sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdU5mzEKmlBVtht8dveU3UTiRQcfiyR1s0kYmiEencfOVGbba4aKnaqdj8hwyG7TEiqlDy_0MntZZn1dJHLLjmFnnJDNlM6vjJopGoxyHIDSuvUTqYBmczUN-k9z1VN9FSCUajdWGXtMiYMBjvbfmaQT6m-o935dOO35avV_49xvPtSM2eYOQdp1n8EAwR09e0wYwSjoNEMh9GCu6BGaGlIJ9QZB7GcMtNzcLO6fxlv-AaZ8-QtR6t"/>
+<div class="absolute bottom-0 right-0 bg-secondary w-4 h-4 rounded-tl-md flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary text-[12px]">check</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Ramesh Singh</h2>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">S/o Gurdial Singh · Rohira Village</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface font-mono">ID: 94812</span>
+<a class="flex items-center gap-0.5 text-secondary font-label-sm text-label-sm" href="tel:+919876543210">
+<span class="material-symbols-outlined text-[14px]">call</span>
+<span>+91 98765-43210</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Biometric Match Circular Badge -->
+<div class="flex flex-col items-end shrink-0">
+<div class="flex items-center gap-1 bg-secondary-container px-2 py-1 rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span class="font-headline-sm text-headline-sm font-bold leading-none">99.4%</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold mt-1">UIDAI Verified</span>
+</div>
+</div>
+<!-- Statutory Verification Tiles (2x2 Grid) -->
+<div class="grid grid-cols-2 gap-space-xs">
+<!-- Land Record (RoR) -->
+<div class="bg-surface-container-low p-2.5 rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Jamabandi (RoR)</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">domain_verification</span>
+</div>
+<div class="font-title-md text-title-md text-on-surface">Khasra 442/12</div>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant font-semibold">4.50 Acres</span>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container px-1 rounded">Solitary</span>
+</div>
+</div>
+<!-- Declared Commodity & NDVI -->
+<div class="bg-surface-container-low p-2.5 rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Wheat HD-2967</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">satellite_alt</span>
+</div>
+<div class="font-title-md text-title-md text-on-surface flex items-baseline gap-1">
+<span>50.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Quintals</span>
+</div>
+<div class="flex items-center gap-1 mt-1 text-secondary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>NDVI Yield Match</span>
+</div>
+</div>
+<!-- DBT Payment Route -->
+<div class="bg-surface-container-low p-2.5 rounded-lg flex flex-col justify-between col-span-2">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[16px]">account_balance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Aadhaar Enabled Payment (DBT)</span>
+</div>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-1.5 py-0.2 rounded font-semibold">NPCI Active</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="font-title-md text-title-md font-mono text-on-surface">State Bank of India ·· 4019</div>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">lock</span> Aadhaar Seeded
+            </span>
+</div>
+</div>
+</div>
+<!-- Quick Satellite Farm Inspection Snippet -->
+<div class="bg-surface-container-low p-2.5 rounded-lg flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="Overhead aerial multispectral vegetation index map of Punjabi wheat fields with green and gold lot boundary highlights, clean cartography visual, high contrast telemetry view" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCw6MtUJbJwQVrfdeYj5Wxpb7xmpptlBUiFPuV6Gitu8g7p_Vp_naGB8puCBmHe5q76NE8wzOoEoUdTUZ7C-L4SnFa7TlwYDoogWTWo1Q6C1OgV9bcJh06uamJxTkrCC7lREChMA6jMMgKk2xDcdNZMYyGNeHgGhLbAaCRhsRGtKgXDjn1TzT0CQ7NadqIjf_BUfpSraNS05fF5CP3Byz8ZxtRNIlvoKATjt4MX0gGjgPH-45YVV6Gi')"></div>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Crop Sown Area Verified</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">100% Valid</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Calamity Index: Nil · Normal Moisture expected</span>
+</div>
+</div>
+<!-- Big Thumb Action Buttons (Stacked Hierarchy) -->
+<div class="flex flex-col gap-2.5 pt-1">
+<!-- Primary Action -->
+<button class="w-full h-14 rounded-xl bg-primary-container hover:bg-secondary active:scale-[0.99] text-on-primary font-title-lg text-title-lg flex items-center justify-center gap-2 shadow-md transition-all" id="btnApproveGatePass">
+<span class="material-symbols-outlined text-[24px]">task_alt</span>
+<span>Approve Farmer &amp; Issue Gate Pass</span>
+</button>
+<!-- Secondary Statutory Flags -->
+<div class="grid grid-cols-2 gap-2">
+<button class="h-11 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-title-md text-title-md flex items-center justify-center gap-1 active:scale-[0.98] transition-transform" id="btnFlagAudit">
+<span class="material-symbols-outlined text-[18px]">report_problem</span>
+<span>Flag for Yard Audit</span>
+</button>
+<button class="h-11 rounded-lg bg-surface-container-high text-on-surface font-title-md text-title-md flex items-center justify-center gap-1 active:scale-[0.98] transition-transform" id="btnReSubmitDocs">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span>Fix Documents</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Forward Workflow Action -->
+<a href="../queue_management_mobile/code.html" class="w-full mt-2.5 py-3 px-4 rounded-xl border-2 border-secondary bg-secondary-container/20 text-on-secondary-container font-semibold text-xs flex items-center justify-center gap-2 hover:bg-secondary-container/40 transition-colors shadow-sm">
+  <span class="material-symbols-outlined text-[18px]">traffic</span>
+  <span>Proceed to Queue Management & ANPR (18 In Line) &rarr;</span>
+</a>
+
+<!-- Audit Log Accordion Trigger -->
+<button class="w-full py-2 px-space-md bg-surface-container-low flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-colors" id="toggleOfficerNotes">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">notes</span>
+<span>Inspection Footnotes &amp; Weight Slip Pre-check</span>
+</span>
+<span class="material-symbols-outlined text-[18px] transition-transform" id="notesIcon">expand_more</span>
+</button>
+<div class="hidden p-space-md bg-surface-container-lowest flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant" id="officerNotesContent">
+<div class="flex items-center justify-between bg-surface-container-low p-2 rounded">
+<span>Assigned Weighbridge Scale:</span>
+<span class="font-title-md text-title-md text-primary">Scale #04 (North Gate)</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-2 rounded">
+<span>Previous Mandi Pass:</span>
+<span class="font-mono text-on-surface">PUN-KHN-2024-884 (Cleared)</span>
+</div>
+<p class="italic text-[12px]">Officer Notice: No pesticide residue hold flag on record. Moisture testing equipment pre-calibrated for Lot 50 Qtl.</p>
+</div>
+</div>
+<!-- Interactive Live Gate Pass Confirmation Banner (Hidden initially) -->
+<div class="hidden flex-col bg-secondary-container p-space-md rounded-xl shadow-lg gap-2 animate-fade-in" id="approvalSuccessToast">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-secondary-container">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+<span class="font-title-md text-title-md font-bold">Gate Pass #GP-2025-94812 Issued</span>
+</div>
+<button class="text-on-secondary-container p-1" id="dismissToast">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-container">
+      SMS token with QR code dispatched to <strong>+91 98765-43210</strong>. Tractor entry authorized at Yard Gate #2.
+    </p>
+<div class="flex gap-2 mt-1">
+<button class="bg-primary-container text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Print Yard Token</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface px-3 py-1.5 rounded-lg font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">share</span>
+<span>WhatsApp Slip</span>
+</button>
+</div>
+</div>
+<!-- Yard Queue Section Heading -->
+<div class="flex items-center justify-between mt-space-xs">
+<div class="flex items-baseline gap-2">
+<h3 class="font-title-lg text-title-lg text-on-surface">Arrival Queue</h3>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Tractor Lots at Gate</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">Sorted by Arrival Time</span>
+</div>
+<!-- Expandable Touch Card Queue List -->
+<div class="flex flex-col gap-space-sm" id="queueListContainer">
+<!-- Queue Card 1: Harpreet Kaur (Approved) -->
+<div class="queue-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs active:bg-surface-container-low transition-colors cursor-pointer" data-id="harpreet">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Elderly female Punjabi agricultural landowner smiling with traditional dupatta head covering, warm morning natural lighting, authentic documentary portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_I3km8r9FyEqfAmWqWBi8eT2HnZaL4ilyAfgX4oL-vvsZc_XevR4bLATsCs3_NQXisQPglO1WuCPXpGFqLWle8upPWgyfmkRQvMV-JHUXr5Hqwfu5zCTk_SmpkHMzBrtle_ib2hf-f6bhUg5-U1dKWuE95otqhHsXNgeUSrOEdtUblnrgle2VqDXt3OlXVz7sIzUAzPAV-hqPNpgItzWZxgXt1EjcyQ_fEdJ2J_k7xSiJUhynUnVp"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface truncate">Harpreet Kaur</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">ID: 94813 · Khasra 108/4 (Kishanpura)</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Verified
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">10 min ago</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low px-2.5 py-1.5 rounded-lg mt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">agriculture</span>
+<span class="font-medium">Wheat PBW-725</span>
+</div>
+<div class="font-title-md text-title-md text-primary font-bold">75.00 Qtl</div>
+</div>
+<!-- Quick Expand Details (Harpreet) -->
+<div class="card-drawer hidden pt-2 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex justify-between border-t-0 pt-1">
+<span>Aadhaar Biometric Status:</span>
+<span class="font-semibold text-secondary">98.1% Matched</span>
+</div>
+<div class="flex justify-between">
+<span>Bank Verification:</span>
+<span class="font-mono text-on-surface">PNB A/C ···8122 (Active)</span>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface-container-high text-primary font-title-md text-title-md hover:bg-primary-container hover:text-on-primary transition-colors mt-1">
+          Switch to Active Dossier
+        </button>
+</div>
+</div>
+<!-- Queue Card 2: Gurmukh Singh (Flagged Discrepancy) -->
+<div class="queue-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs active:bg-surface-container-low transition-colors cursor-pointer" data-id="gurmukh">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest overflow-hidden shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of an Indian rural farmer with blue turban looking concerned, realistic daylight shot, authentic expression in mandi trade yard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-HKiJBjn6tzO52SpQXSCUoxEz2V4lLYzHYNQezx-yLXYET4VldX23iLvf_SnFAArCtgZx0wTxB5WHkfDKrLeMt2BlntppzP4yhE21D75zfxyl1FBEc_Ubfg4OT5TnSMwdgn8Fwgx_iUOgPqCHPXVBMd0_CM0XFOJRpq6aogoHpaiEtdpPogsVUEJy8XVWvut-hpbvbCCmX4WZEmk6UTUxrTL_tw2K-2l3WC9CSFtdNHqQlqRxdILU"/>
+<div class="absolute bottom-0 right-0 bg-tertiary-container w-3.5 h-3.5 rounded-tl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary text-[10px]">priority_high</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface truncate">Gurmukh Singh</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">ID: 94814 · Khasra 219/7 (Bhadla)</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+            Joint Issue
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">18 min ago</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-error-container/30 px-2.5 py-1.5 rounded-lg mt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-error">warning</span>
+<span class="font-medium text-error">NOC Required from Co-Owner</span>
+</div>
+<div class="font-title-md text-title-md text-on-surface font-bold">110.00 Qtl</div>
+</div>
+<!-- Quick Expand Details (Gurmukh) -->
+<div class="card-drawer hidden pt-2 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="bg-surface-container-low p-2 rounded text-[12px] text-on-surface">
+<strong>Discrepancy Note:</strong> Jamabandi registers 3 co-owners for Khasra 219/7. Consent affidavit from co-sharer Balvir Singh missing from Anaaj Kharid portal upload.
+        </div>
+<div class="flex gap-2 mt-1">
+<button class="flex-1 py-2 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-title-md text-title-md flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+            Call Tehsildar Desk
+          </button>
+<button class="flex-1 py-2 rounded-lg bg-surface-container-high text-on-surface font-title-md text-title-md">
+            View Jamabandi PDF
+          </button>
+</div>
+</div>
+</div>
+<!-- Queue Card 3: Balwinder Singh (Pending Verification) -->
+<div class="queue-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs active:bg-surface-container-low transition-colors cursor-pointer" data-id="balwinder">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Medium close portrait of middle-aged farmer with clean green turban in sunlit agricultural courtyard, natural documentary photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpTnYCY8uop5Hcw3gw1cjnfk-8uDYDypHNK7BMgZunyinR_LmAKswBkwhIxTI4P94Byk-ZK4zY-cSFkfB1t_-B39Sw6Ym5GA9ZABrCC4JIpIqWlewSYt-9_no_ied_tKqkaMab0J11yzGKrpYbQLo8RJy6X9o_igrveiANp2a29ZHqT7ANXk4VHkONRpTeUBDQb7WNz6jXiLcZTF7W6OHQQUxpQ1knOWYJpI1bQH1rlJfhHcSOZY1s"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-on-surface truncate">Balwinder Singh</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">ID: 94815 · Khasra 512/1 (Rohira)</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+            Pending e-KYC
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">25 min ago</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low px-2.5 py-1.5 rounded-lg mt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">agriculture</span>
+<span class="font-medium">Wheat Sharbati</span>
+</div>
+<div class="font-title-md text-title-md text-primary font-bold">40.00 Qtl</div>
+</div>
+<div class="card-drawer hidden pt-2 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex justify-between">
+<span>Biometric Status:</span>
+<span class="font-medium text-tertiary-container">Iris / OTP Pending</span>
+</div>
+<button class="w-full py-2 rounded-lg bg-primary-container text-on-primary font-title-md text-title-md">
+          Initiate Biometric Scan
+        </button>
+</div>
+</div>
+</div>
+<!-- Bottom Fast Actions / Stat Bar -->
+<div class="bg-surface-container rounded-xl p-space-md flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Mandi Yard Gate #02</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Auto-sync with Punjab Mandi Board API</span>
+</div>
+</div>
+<button aria-label="Force Sync" class="p-2 rounded-lg bg-surface-container-lowest text-primary active:scale-95 transition-transform" id="btnManualRefresh">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+<script>
+  // Mobile Micro-Interactions & State Management
+  (function() {
+    const approveBtn = document.getElementById('btnApproveGatePass');
+    const toast = document.getElementById('approvalSuccessToast');
+    const dismissBtn = document.getElementById('dismissToast');
+    const dossierCard = document.getElementById('activeDossierCard');
+    const toggleNotesBtn = document.getElementById('toggleOfficerNotes');
+    const notesContent = document.getElementById('officerNotesContent');
+    const notesIcon = document.getElementById('notesIcon');
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const queueCards = document.querySelectorAll('.queue-card');
+    const barcodeBtn = document.getElementById('btnScanBarcode');
+    const searchInput = document.getElementById('farmerSearchInput');
+
+    // 1. Approve Farmer & Issue Gate Pass Handler
+    if (approveBtn) {
+      approveBtn.addEventListener('click', function() {
+        this.innerHTML = '<span class="material-symbols-outlined animate-spin text-[22px]">progress_activity</span> <span>Generating Signed Gate Pass...</span>';
+        this.classList.add('opacity-90');
+        
+        setTimeout(() => {
+          this.innerHTML = '<span class="material-symbols-outlined text-[24px]">task_alt</span> <span>Gate Pass Approved #GP-94812</span>';
+          this.classList.remove('opacity-90');
+          this.classList.replace('bg-primary-container', 'bg-secondary');
+          
+          if (toast) {
+            toast.classList.remove('hidden');
+            toast.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+
+          // Haptic vibration feedback if supported by handheld rugged terminal
+          if (navigator.vibrate) {
+            navigator.vibrate([40, 60, 40]);
+          }
+        }, 600);
+      });
+    }
+
+    // 2. Dismiss Gate Pass Success Toast
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function() {
+        toast.classList.add('hidden');
+      });
+    }
+
+    // 3. Officer Notes Accordion Toggle
+    if (toggleNotesBtn && notesContent && notesIcon) {
+      toggleNotesBtn.addEventListener('click', function() {
+        const isHidden = notesContent.classList.contains('hidden');
+        if (isHidden) {
+          notesContent.classList.remove('hidden');
+          notesIcon.style.transform = 'rotate(180deg)';
+        } else {
+          notesContent.classList.add('hidden');
+          notesIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+    }
+
+    // 4. Status Filter Pills Switcher
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function() {
+        filterPills.forEach(p => {
+          p.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-sm');
+          p.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        this.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+        this.classList.add('bg-primary-container', 'text-on-primary', 'shadow-sm');
+      });
+    });
+
+    // 5. Expandable Queue Cards
+    queueCards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Prevent toggle if clicking button inside
+        if (e.target.closest('button') || e.target.closest('a')) return;
+        
+        const drawer = this.querySelector('.card-drawer');
+        if (!drawer) return;
+        
+        const isHidden = drawer.classList.contains('hidden');
+        // Collapse all others
+        document.querySelectorAll('.card-drawer').forEach(d => d.classList.add('hidden'));
+        
+        if (isHidden) {
+          drawer.classList.remove('hidden');
+        } else {
+          drawer.classList.add('hidden');
+        }
+      });
+    });
+
+    // 6. Barcode Scanner Simulation
+    if (barcodeBtn && searchInput) {
+      barcodeBtn.addEventListener('click', function() {
+        this.classList.add('animate-pulse');
+        setTimeout(() => {
+          this.classList.remove('animate-pulse');
+          searchInput.value = 'TOKEN-KHN-1094';
+          searchInput.focus();
+        }, 400);
+      });
+    }
+
+    // 7. Flag Audit & Document Buttons Feedback
+    const flagBtn = document.getElementById('btnFlagAudit');
+    const docBtn = document.getElementById('btnReSubmitDocs');
+
+    if (flagBtn) {
+      flagBtn.addEventListener('click', function() {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="material-symbols-outlined text-[18px]">done</span> Flagged for Scale #4 Audit';
+        setTimeout(() => { this.innerHTML = originalText; }, 2200);
+      });
+    }
+
+    if (docBtn) {
+      docBtn.addEventListener('click', function() {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="material-symbols-outlined text-[18px]">send</span> Resubmission SMS Sent';
+        setTimeout(() => { this.innerHTML = originalText; }, 2200);
+      });
+    }
+
+    // 8. Refresh Sync Button Spin
+    const syncBtn = document.getElementById('btnManualRefresh');
+    if (syncBtn) {
+      syncBtn.addEventListener('click', function() {
+        const icon = this.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.classList.add('animate-spin');
+          setTimeout(() => icon.classList.remove('animate-spin'), 700);
+        }
+      });
+    }
+
+  })();
+</script></main><nav class="fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-xl border-t border-outline-variant/60 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] pb-safe">
+  <div class="flex items-center overflow-x-auto no-scrollbar py-1 px-1 max-w-md mx-auto justify-between gap-0.5">
+    <a href="../mandi_officer_mobile_dashboard/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >grid_view</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Dashboard</span>
+    </a>
+    <a href="../farmer_verification_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 bg-primary-container text-on-primary font-bold shadow-sm">
+      <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Verify</span>
+    </a>
+    <a href="../queue_management_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >traffic</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Queue</span>
+    </a>
+    <a href="../quality_inspection_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >biotech</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Quality</span>
+    </a>
+    <a href="../weighbridge_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >scale</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Weigh</span>
+    </a>
+    <a href="../payment_dbt_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >payments</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">DBT Pay</span>
+    </a>
+    <a href="../reports_mobile/code.html" class="flex flex-col items-center justify-center min-w-[50px] py-1 px-1.5 rounded-xl text-xs transition-all duration-150 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-medium">
+      <span class="material-symbols-outlined text-[20px]" >analytics</span>
+      <span class="text-[10px] tracking-tight whitespace-nowrap mt-0.5">Reports</span>
+    </a>
+  </div>
+</nav><!-- MANDI OFFICER QUICK NAVIGATION DRAWER / MODAL -->
+<div id="mandiNavDrawer" class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm hidden flex-col justify-end transition-opacity duration-300">
+  <div class="bg-surface-container-lowest rounded-t-2xl max-w-md mx-auto w-full p-4 border-t border-outline-variant/60 shadow-2xl max-h-[85vh] overflow-y-auto">
+    <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">shield_person</span>
+        </div>
+        <div>
+          <h3 class="font-title-md text-sm text-primary font-bold">Mandi Officer Console</h3>
+          <p class="text-[11px] text-on-surface-variant">Khanna APMC Yard • 7 Connected Stations</p>
+        </div>
+      </div>
+      <button onclick="closeModuleDrawer()" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 gap-1.5 pt-3">
+      <a href="../mandi_officer_mobile_dashboard/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">grid_view</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Mandi Dashboard</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Central</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">Overview & Live Metrics</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../farmer_verification_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors bg-primary-container text-on-primary shadow-sm">
+        <div class="w-10 h-10 rounded-lg bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-on-primary">how_to_reg</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Farmer Verification</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-lowest/30 text-on-primary">Gate 01</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">UID & Land Check</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../queue_management_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">traffic</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Queue Management</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">18 Vehicles</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">ANPR & Bay Flow</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../quality_inspection_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">biotech</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Quality Assaying</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Lab Bay</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">Moisture & FAQ Grade</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../weighbridge_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">scale</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Weighbridge Station</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Scale #04</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">Gross & Tare Telemetry</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../payment_dbt_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">payments</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">DBT & Payments</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">PFMS Sync</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">PFMS Direct Settlement</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+      <a href="../reports_mobile/code.html" class="flex items-center gap-3 p-2.5 rounded-xl transition-colors text-on-surface hover:bg-surface-container">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[22px] text-primary">analytics</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-sm font-semibold truncate">Reports & Audit</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Statutory</span>
+          </div>
+          <div class="text-[11px] opacity-80 truncate">Procurement Ledger</div>
+        </div>
+        <span class="material-symbols-outlined text-[18px] opacity-60">arrow_forward</span>
+      </a>
+    </div>
+
+    <div class="pt-3 mt-3 border-t border-outline-variant/60 flex items-center justify-between">
+      <a href="../login/code.html" class="flex items-center gap-1.5 text-xs text-error font-semibold hover:underline">
+        <span class="material-symbols-outlined text-[18px]">logout</span>
+        <span>Logout to Login Screen</span>
+      </a>
+      <span class="text-[11px] text-on-surface-variant font-medium">NIC e-NAM V4.8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModuleDrawer() {
+  const drawer = document.getElementById('mandiNavDrawer');
+  if (drawer) {
+    drawer.classList.remove('hidden');
+    drawer.classList.add('flex');
+  }
+}
+function closeModuleDrawer() {
+  const drawer = document.getElementById('mandiNavDrawer');
+  if (drawer) {
+    drawer.classList.add('hidden');
+    drawer.classList.remove('flex');
+  }
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModuleDrawer();
+});
+</script>
+</body></html>
