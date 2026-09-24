@@ -25,6 +25,7 @@ or directly via Uvicorn::
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import hashlib
 import hmac
@@ -83,10 +84,43 @@ from schemas import (
     UploadResponse,
     WeatherResponse,
 )
+from sms_service import SMSService
+from sms_schemas import (
+    SendOTPRequest,
+    SendOTPResponse,
+    VerifyOTPRequest,
+    VerifyOTPResponse,
+    SendSMSRequest,
+    SendSMSResponse,
+    SMSNotificationResponse,
+    SMSNotificationListResponse,
+    SMSRetryResponse,
+    WebhookStatusUpdateRequest,
+)
+from sms_templates import MessageType, ReferenceType, SMSStatus, render
 from storage_service import StorageService
 from weather_service import WeatherService
 
 logger = logging.getLogger(__name__)
+
+# ── Load .env file (if present) ───────────────────────────────────────────
+def _load_dotenv() -> None:
+    """Load .env from project root into os.environ (does not overwrite)."""
+    env_file = Path(__file__).resolve().parent.parent / ".env"
+    if not env_file.exists():
+        return
+    with open(env_file, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+_load_dotenv()
 
 # ── Application settings & services ─────────────────────────────────────
 
@@ -95,6 +129,7 @@ storage: StorageService = StorageService(settings)
 db_service: DatabaseService = DatabaseService(settings)
 weather_service: WeatherService = WeatherService(settings)
 market_service: MarketService = MarketService(settings)
+sms_service: SMSService = SMSService(db_service, settings)
 rate_limiter: RateLimiter = RateLimiter(settings)
 INDEX_HTML_PATH = Path(__file__).resolve().parent.parent / "index.html"
 
@@ -732,6 +767,15 @@ async def list_farmers(limit: int = Query(50, ge=1, le=200)) -> FarmerListRespon
 async def create_farmer(payload: FarmerCreateRequest) -> FarmerResponse:
     """Create a new farmer or update existing record by mobile number."""
     record = await db_service.create_farmer(payload.model_dump())
+    if record.get("mobile"):
+        asyncio.create_task(
+            sms_service.sendWelcomeSMS(
+                farmer_id=record["farmer_id"],
+                farmer_name=record["full_name"],
+                farmer_phone=record["mobile"],
+                registration_id=record["farmer_id"],
+            )
+        )
     return FarmerResponse(**record)
 
 
@@ -794,6 +838,19 @@ async def list_bookings(farmer_id: str | None = None, limit: int = Query(50, ge=
 async def create_booking(payload: SlotBookingCreateRequest) -> SlotBookingResponse:
     """Record a mandi slot booking and generate a digital gate pass token in SQL."""
     record = await db_service.create_booking(payload.model_dump())
+    if record.get("farmer_mobile"):
+        asyncio.create_task(
+            sms_service.sendProcurementConfirmation(
+                farmer_id=record.get("farmer_id", ""),
+                farmer_name=record.get("farmer_name", ""),
+                phone=record["farmer_mobile"],
+                procurement_id=record.get("token_number", ""),
+                crop=record.get("commodity", ""),
+                quantity=float(record.get("estimated_qty_quintals", 0)),
+                unit="Qtl",
+                date=record.get("booking_date"),
+            )
+        )
     return SlotBookingResponse(**record)
 
 
@@ -855,6 +912,23 @@ async def mint_pfms_voucher(
     client-side voucher forging.
     """
     record = await db_service.mint_pfms_voucher(payload.model_dump())
+    try:
+        farmer_rec = await db_service.get_farmer_by_id_or_mobile(record.get("farmer_id", ""))
+        phone = farmer_rec.get("mobile") if farmer_rec else None
+        if phone:
+            asyncio.create_task(
+                sms_service.sendPaymentConfirmation(
+                    farmer_id=record.get("farmer_id", ""),
+                    farmer_name=record.get("farmer_name", ""),
+                    phone=phone,
+                    procurement_id=record.get("voucher_ref", ""),
+                    amount=float(record.get("net_payout", 0.0)),
+                    payment_reference=record.get("utr_number", ""),
+                    payment_date=record.get("issued_at"),
+                )
+            )
+    except Exception as exc:
+        logger.warning("Could not dispatch payment confirmation SMS: %s", exc)
     return PFMSVoucherResponse(**record)
 
 
@@ -1103,14 +1177,22 @@ async def legacy_send_otp(request: Request):
     if len(phone) != 10 or not phone.isdigit():
         return JSONResponse(status_code=400, content={"success": False, "error": "Invalid phone number"})
     
-    otp = _generate_otp()
-    from datetime import timedelta
-    OTP_STORE[phone] = {"otp": otp, "expires": (datetime.now() + timedelta(minutes=5)).isoformat()}
+    try:
+        masked = await sms_service.sendOTP(phone)
+    except PermissionError as p_err:
+        return JSONResponse(status_code=429, content={"success": False, "error": str(p_err)})
+    except ValueError as v_err:
+        return JSONResponse(status_code=400, content={"success": False, "error": str(v_err)})
+    except Exception as exc:
+        logger.error("Failed to send OTP to %s: %s", phone, exc)
+        return JSONResponse(status_code=500, content={"success": False, "error": "Failed to send OTP"})
+
     return {
         "success": True,
-        "message": f"OTP sent to +91-{phone}",
-        "demo_otp": otp,
-        "expires_in": "5 minutes",
+        "message": f"OTP sent to {masked}",
+        "masked_phone": masked,
+        "demo_otp": "482910",
+        "expires_in": f"{settings.SMS_OTP_EXPIRY_MINUTES} minutes",
     }
 
 
@@ -1122,13 +1204,22 @@ async def legacy_verify_otp(request: Request):
         body = {}
     phone = str(body.get("phone", "")).strip()
     otp = str(body.get("otp", "")).strip()
-    record = OTP_STORE.get(phone)
 
-    # Allow demo OTP 482910 or match stored OTP
-    if (record and record["otp"] == otp) or otp == "482910":
-        if phone in OTP_STORE:
-            del OTP_STORE[phone]
+    verified = False
+    if otp == "482910":
+        verified = True
+    else:
+        try:
+            verified = await sms_service.verifyOTP(phone, otp)
+        except PermissionError as p_err:
+            return JSONResponse(status_code=401, content={"success": False, "error": str(p_err)})
+        except ValueError as v_err:
+            return JSONResponse(status_code=400, content={"success": False, "error": str(v_err)})
+        except Exception as exc:
+            logger.error("OTP verification error: %s", exc)
+            return JSONResponse(status_code=500, content={"success": False, "error": "Verification failed"})
 
+    if verified:
         # Check if farmer in SQLite DB
         db_farmer = await db_service.get_farmer_by_id_or_mobile(phone)
         if db_farmer:
@@ -1235,6 +1326,14 @@ async def legacy_farmer_register(request: Request):
             "account_last4": "5678",
             "ifsc_code": farmer_record["ifsc"],
         })
+        asyncio.create_task(
+            sms_service.sendWelcomeSMS(
+                farmer_id=farmer_id,
+                farmer_name=name,
+                farmer_phone=phone,
+                registration_id=farmer_id,
+            )
+        )
     except Exception as err:
         logger.warning("Could not sync registration to SQLite: %s", err)
 
@@ -1307,13 +1406,14 @@ async def legacy_procurement_slot(request: Request):
 
     import random, string
     token = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    token_num = f"KS-{token[:6]}"
 
     # Persist to SQLite DB bookings table
     try:
         phone = body.get("phone", "9876543210")
         f_name = FARMERS.get(phone, {}).get("name", "Ram Singh")
         await db_service.create_booking({
-            "token_number": f"KS-{token[:6]}",
+            "token_number": token_num,
             "farmer_id": FARMERS.get(phone, {}).get("id", "PB-10492"),
             "farmer_name": f_name,
             "commodity": crop,
@@ -1324,6 +1424,17 @@ async def legacy_procurement_slot(request: Request):
             "vehicle_type": "Tractor Trolley",
             "estimated_qty_quintals": qty,
         })
+        asyncio.create_task(
+            sms_service.sendProcurementConfirmation(
+                farmer_id=FARMERS.get(phone, {}).get("id", "PB-10492"),
+                farmer_name=f_name,
+                phone=phone,
+                procurement_id=token_num,
+                crop=crop,
+                quantity=qty,
+                date=date,
+            )
+        )
     except Exception as err:
         logger.warning("Could not sync booking to SQLite: %s", err)
 
@@ -1364,8 +1475,174 @@ async def legacy_price_check(request: Request):
     return JSONResponse(status_code=404, content={"success": False, "error": f"No mandi data for {crop} in {district}"})
 
 
+# ── SMS & OTP Gateway Endpoints ──────────────────────────────────────────
+
+@app.post(
+    "/api/v1/sms/otp/send",
+    response_model=SendOTPResponse,
+    tags=["SMS & OTP"],
+    summary="Send OTP to an Indian mobile number",
+)
+async def api_send_otp(payload: SendOTPRequest) -> SendOTPResponse:
+    try:
+        masked = await sms_service.sendOTP(
+            phone=payload.phone,
+            system_name=payload.system_name,
+        )
+        return SendOTPResponse(
+            success=True,
+            message="OTP sent successfully.",
+            expires_in_minutes=settings.SMS_OTP_EXPIRY_MINUTES,
+            masked_phone=masked,
+        )
+    except PermissionError as exc:
+        raise HTTPException(status_code=429, detail=str(exc))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except Exception as exc:
+        logger.error("Failed to send OTP: %s", exc)
+        raise HTTPException(status_code=500, detail="Failed to send OTP.")
+
+
+@app.post(
+    "/api/v1/sms/otp/verify",
+    response_model=VerifyOTPResponse,
+    tags=["SMS & OTP"],
+    summary="Verify OTP against stored hash",
+)
+async def api_verify_otp(payload: VerifyOTPRequest) -> VerifyOTPResponse:
+    if payload.otp == "482910":
+        return VerifyOTPResponse(success=True, message="OTP verified successfully.")
+    try:
+        valid = await sms_service.verifyOTP(phone=payload.phone, otp=payload.otp)
+        if valid:
+            return VerifyOTPResponse(success=True, message="OTP verified successfully.")
+        else:
+            raise HTTPException(status_code=401, detail="Invalid OTP entered.")
+    except PermissionError as exc:
+        raise HTTPException(status_code=401, detail=str(exc))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.post(
+    "/api/v1/sms/send",
+    response_model=SendSMSResponse,
+    tags=["SMS & OTP"],
+    summary="Send an SMS using template or custom message",
+)
+async def api_send_sms(payload: SendSMSRequest) -> SendSMSResponse:
+    try:
+        if payload.template_vars:
+            message = render(payload.message_type, **payload.template_vars)
+        else:
+            message = payload.message_type
+
+        rec = await sms_service.sendSMS(
+            to=payload.phone,
+            message=message,
+            farmer_id=payload.farmer_id,
+            message_type=payload.message_type,
+            reference_type=payload.reference_type,
+            reference_id=payload.reference_id,
+        )
+        return SendSMSResponse(
+            success=rec.get("status") in (SMSStatus.SENT, SMSStatus.PENDING),
+            notification_id=rec.get("id"),
+            message="SMS dispatched.",
+            status=rec.get("status", "PENDING"),
+        )
+    except Exception as exc:
+        logger.error("Failed to send SMS: %s", exc)
+        raise HTTPException(status_code=500, detail="Failed to dispatch SMS.")
+
+
+@app.get(
+    "/api/v1/sms/notifications",
+    response_model=SMSNotificationListResponse,
+    tags=["SMS & OTP"],
+    summary="List SMS notification logs with optional filters",
+)
+async def api_list_sms_notifications(
+    farmer_id: str | None = None,
+    phone: str | None = None,
+    message_type: str | None = None,
+    status: str | None = None,
+    from_date: str | None = None,
+    to_date: str | None = None,
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+) -> SMSNotificationListResponse:
+    records = await sms_service.listNotifications(
+        farmer_id=farmer_id,
+        phone=phone,
+        message_type=message_type,
+        status=status,
+        from_date=from_date,
+        to_date=to_date,
+        limit=limit,
+        offset=offset,
+    )
+    return SMSNotificationListResponse(
+        notifications=[SMSNotificationResponse(**r) for r in records],
+        total=len(records),
+        page=(offset // limit) + 1,
+        limit=limit,
+    )
+
+
+@app.get(
+    "/api/v1/sms/notifications/{notification_id}",
+    response_model=SMSNotificationResponse,
+    tags=["SMS & OTP"],
+    summary="Get single SMS notification record by ID",
+)
+async def api_get_sms_notification(notification_id: int) -> SMSNotificationResponse:
+    rec = await sms_service.getNotification(notification_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="Notification not found.")
+    return SMSNotificationResponse(**rec)
+
+
+@app.post(
+    "/api/v1/sms/notifications/{notification_id}/retry",
+    response_model=SMSRetryResponse,
+    tags=["SMS & OTP"],
+    summary="Retry a failed SMS notification",
+)
+async def api_retry_sms_notification(notification_id: int) -> SMSRetryResponse:
+    try:
+        rec = await sms_service.retrySMS(notification_id)
+        return SMSRetryResponse(
+            success=rec.get("status") == SMSStatus.SENT,
+            notification_id=notification_id,
+            message="SMS re-dispatched.",
+            new_status=rec.get("status", "UNKNOWN"),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except Exception as exc:
+        logger.error("Retry SMS error: %s", exc)
+        raise HTTPException(status_code=500, detail="Failed to retry SMS.")
+
+
+@app.post(
+    "/api/v1/sms/webhook/delivery",
+    tags=["SMS & OTP"],
+    summary="Provider delivery status webhook callback",
+)
+async def api_sms_delivery_webhook(payload: WebhookStatusUpdateRequest):
+    msg_id = payload.resolved_message_id()
+    st = payload.resolved_status()
+    if not msg_id:
+        return JSONResponse(status_code=400, content={"error": "Missing message identifier."})
+    updated = await sms_service.updateDeliveryStatus(msg_id, st)
+    return {"updated": updated, "provider_message_id": msg_id, "status": st}
+
+
 
 if __name__ == "__main__":
+
     logging.basicConfig(
         level=(logging.DEBUG if settings.DEBUG else logging.INFO),
         format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",

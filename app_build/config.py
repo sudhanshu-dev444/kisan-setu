@@ -163,6 +163,23 @@ class Settings:
     WEATHER_CACHE_TTL_SECONDS: int = 600    # 10 minutes
     MARKET_CACHE_TTL_SECONDS: int = 1800    # 30 minutes
 
+    # ── SMS & OTP Gateway Configuration ──────────────────────────────────
+    # Provider selection: "mock" (default, logs to stdout/logger) | "twilio" | "msg91" | "fast2sms"
+    SMS_PROVIDER: str = "mock"
+    SMS_API_KEY: str = ""           # Twilio Account SID, MSG91 Auth Key, or Fast2SMS Key
+    SMS_API_SECRET: str = ""        # Twilio Auth Token
+    SMS_FROM_NUMBER: str = ""       # Twilio From Number (+1...)
+    SMS_SENDER_ID: str = "KISETU"   # DLT / MSG91 Header (6 uppercase letters)
+    SMS_API_URL: str = ""           # Custom gateway URL override
+    SMS_TIMEOUT_SECONDS: int = 10
+    SMS_MAX_RETRIES: int = 3
+    SMS_OTP_EXPIRY_MINUTES: int = 5
+    SMS_OTP_MAX_ATTEMPTS: int = 3
+    SMS_OTP_RATE_LIMIT_PER_WINDOW: int = 3
+    SMS_OTP_RATE_LIMIT_WINDOW_MINUTES: int = 10
+    SMS_DEDUP_WINDOW_SECONDS: int = 300
+    SYSTEM_NAME: str = "Kisan Setu"
+
     def is_mime_allowed(self, mime_type: str) -> bool:
         """Return ``True`` if *mime_type* is covered by the whitelist."""
         normalised = mime_type.lower().strip()
@@ -265,5 +282,42 @@ def get_settings() -> Settings:
     pfms_secret = os.getenv("PFMS_SIGNING_SECRET")
     if pfms_secret:
         kwargs["PFMS_SIGNING_SECRET"] = pfms_secret
+
+    # SMS & OTP settings from environment
+    sms_provider = os.getenv("SMS_PROVIDER")
+    if sms_provider:
+        kwargs["SMS_PROVIDER"] = sms_provider
+
+    sms_api_key = os.getenv("SMS_API_KEY")
+    if sms_api_key:
+        kwargs["SMS_API_KEY"] = sms_api_key
+
+    sms_api_secret = os.getenv("SMS_API_SECRET")
+    if sms_api_secret:
+        kwargs["SMS_API_SECRET"] = sms_api_secret
+
+    sms_from_number = os.getenv("SMS_FROM_NUMBER")
+    if sms_from_number:
+        kwargs["SMS_FROM_NUMBER"] = sms_from_number
+
+    sms_sender_id = os.getenv("SMS_SENDER_ID")
+    if sms_sender_id:
+        kwargs["SMS_SENDER_ID"] = sms_sender_id
+
+    sms_api_url = os.getenv("SMS_API_URL")
+    if sms_api_url:
+        kwargs["SMS_API_URL"] = sms_api_url
+
+    kwargs["SMS_TIMEOUT_SECONDS"] = _env_int("SMS_TIMEOUT_SECONDS", 10, minimum=1)
+    kwargs["SMS_MAX_RETRIES"] = _env_int("SMS_MAX_RETRIES", 3, minimum=0)
+    kwargs["SMS_OTP_EXPIRY_MINUTES"] = _env_int("SMS_OTP_EXPIRY_MINUTES", 5, minimum=1)
+    kwargs["SMS_OTP_MAX_ATTEMPTS"] = _env_int("SMS_OTP_MAX_ATTEMPTS", 3, minimum=1)
+    kwargs["SMS_OTP_RATE_LIMIT_PER_WINDOW"] = _env_int("SMS_OTP_RATE_LIMIT_PER_WINDOW", 3, minimum=1)
+    kwargs["SMS_OTP_RATE_LIMIT_WINDOW_MINUTES"] = _env_int("SMS_OTP_RATE_LIMIT_WINDOW_MINUTES", 10, minimum=1)
+    kwargs["SMS_DEDUP_WINDOW_SECONDS"] = _env_int("SMS_DEDUP_WINDOW_SECONDS", 300, minimum=0)
+
+    system_name = os.getenv("SYSTEM_NAME")
+    if system_name:
+        kwargs["SYSTEM_NAME"] = system_name
 
     return Settings(**kwargs)

@@ -187,6 +187,43 @@ class DatabaseService:
                 """
             )
 
+            # 7. OTP Records Table — stores hashed OTPs for phone verification
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS otp_records (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    phone TEXT NOT NULL,
+                    otp_hash TEXT NOT NULL,
+                    expires_at TEXT NOT NULL,
+                    attempt_count INTEGER DEFAULT 0,
+                    used INTEGER DEFAULT 0,
+                    created_at TEXT NOT NULL
+                );
+                """
+            )
+
+            # 8. SMS Notifications Table — persists every SMS send attempt
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS sms_notifications (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    farmer_id TEXT,
+                    phone_number TEXT NOT NULL,
+                    message_type TEXT NOT NULL,
+                    message TEXT NOT NULL,
+                    reference_type TEXT,
+                    reference_id TEXT,
+                    provider_message_id TEXT DEFAULT '',
+                    status TEXT DEFAULT 'PENDING',
+                    attempt_count INTEGER DEFAULT 0,
+                    error_message TEXT,
+                    sent_at TEXT,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                """
+            )
+
             # Indices for rapid querying
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_farmers_mobile ON farmers(mobile);")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_farmers_farmer_id ON farmers(farmer_id);")
@@ -195,6 +232,10 @@ class DatabaseService:
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_mandi_prices ON mandi_prices_history(commodity, state);")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_vouchers_ref ON pfms_vouchers(voucher_ref);")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_vouchers_farmer ON pfms_vouchers(farmer_id);")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_otp_phone ON otp_records(phone, created_at);")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_sms_farmer ON sms_notifications(farmer_id);")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_sms_phone ON sms_notifications(phone_number);")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_sms_status ON sms_notifications(status);")
 
             # Seed default demo farmer if empty
             cursor.execute("SELECT COUNT(*) AS cnt FROM farmers;")
@@ -746,3 +787,260 @@ class DatabaseService:
                     )
                 return [dict(r) for r in cursor.fetchall()]
         return await asyncio.to_thread(_list)
+
+    # ── OTP Database Methods ─────────────────────────────────────────────────
+
+    async def store_otp(
+        self, phone: str, otp_hash: str, expires_at: str
+    ) -> None:
+        """Persist a hashed OTP record for the given 10-digit phone number.
+
+        Any previous un-used OTP records for the same phone are invalidated
+        (marked used) so only the most recent OTP is ever valid.
+        """
+        def _store():
+            now = _utc_now_iso()
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                # Invalidate previous pending OTPs for this phone
+                cursor.execute(
+                    "UPDATE otp_records SET used = 1 WHERE phone = ? AND used = 0;",
+                    (phone,),
+                )
+                cursor.execute(
+                    """
+                    INSERT INTO otp_records (phone, otp_hash, expires_at, attempt_count, used, created_at)
+                    VALUES (?, ?, ?, 0, 0, ?);
+                    """,
+                    (phone, otp_hash, expires_at, now),
+                )
+                conn.commit()
+        await asyncio.to_thread(_store)
+
+    async def get_otp_record(self, phone: str) -> dict[str, Any] | None:
+        """Return the most recent active (unused, not expired) OTP record."""
+        def _get():
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    SELECT * FROM otp_records
+                    WHERE phone = ? AND used = 0
+                    ORDER BY id DESC
+                    LIMIT 1;
+                    """,
+                    (phone,),
+                )
+                row = cursor.fetchone()
+                return dict(row) if row else None
+        return await asyncio.to_thread(_get)
+
+    async def count_otp_sends(self, phone: str, window_sec: int) -> int:
+        """Count OTP records created for ``phone`` within the last ``window_sec`` seconds."""
+        def _count():
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    SELECT COUNT(*) AS cnt FROM otp_records
+                    WHERE phone = ?
+                    AND created_at >= datetime('now', ? || ' seconds');
+                    """,
+                    (phone, f"-{window_sec}"),
+                )
+                return cursor.fetchone()["cnt"]
+        return await asyncio.to_thread(_count)
+
+    async def mark_otp_used(self, record_id: int) -> None:
+        """Mark an OTP record as consumed so it can never be reused."""
+        def _mark():
+            with self._get_connection() as conn:
+                conn.execute(
+                    "UPDATE otp_records SET used = 1 WHERE id = ?;",
+                    (record_id,),
+                )
+                conn.commit()
+        await asyncio.to_thread(_mark)
+
+    async def increment_otp_attempt(self, record_id: int) -> None:
+        """Increment the verification attempt counter for an OTP record."""
+        def _incr():
+            with self._get_connection() as conn:
+                conn.execute(
+                    "UPDATE otp_records SET attempt_count = attempt_count + 1 WHERE id = ?;",
+                    (record_id,),
+                )
+                conn.commit()
+        await asyncio.to_thread(_incr)
+
+    # ── SMS Notification Database Methods ───────────────────────────────────
+
+    async def create_sms_notification(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Insert a new SMS notification record and return it with its generated ID."""
+        def _create():
+            now = _utc_now_iso()
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    INSERT INTO sms_notifications (
+                        farmer_id, phone_number, message_type, message,
+                        reference_type, reference_id, provider_message_id,
+                        status, attempt_count, error_message, sent_at,
+                        created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    """,
+                    (
+                        data.get("farmer_id"),
+                        data["phone_number"],
+                        data["message_type"],
+                        data["message"],
+                        data.get("reference_type"),
+                        data.get("reference_id"),
+                        data.get("provider_message_id", ""),
+                        data.get("status", "PENDING"),
+                        data.get("attempt_count", 0),
+                        data.get("error_message"),
+                        data.get("sent_at"),
+                        data.get("created_at", now),
+                        data.get("updated_at", now),
+                    ),
+                )
+                new_id = cursor.lastrowid
+                conn.commit()
+                cursor.execute("SELECT * FROM sms_notifications WHERE id = ?;", (new_id,))
+                return dict(cursor.fetchone())
+        return await asyncio.to_thread(_create)
+
+    async def update_sms_status(
+        self,
+        notification_id: int,
+        status: str,
+        provider_message_id: str = "",
+        error_message: str | None = None,
+        sent_at: str | None = None,
+    ) -> None:
+        """Update the delivery status of an SMS notification record."""
+        def _update():
+            now = _utc_now_iso()
+            with self._get_connection() as conn:
+                conn.execute(
+                    """
+                    UPDATE sms_notifications
+                    SET status = ?, provider_message_id = ?,
+                        error_message = ?, sent_at = ?,
+                        attempt_count = attempt_count + 1,
+                        updated_at = ?
+                    WHERE id = ?;
+                    """,
+                    (
+                        status,
+                        provider_message_id,
+                        error_message,
+                        sent_at,
+                        now,
+                        notification_id,
+                    ),
+                )
+                conn.commit()
+        await asyncio.to_thread(_update)
+
+    async def check_duplicate_sms(
+        self,
+        farmer_id: str,
+        message_type: str,
+        reference_id: str,
+        window_sec: int = 300,
+    ) -> bool:
+        """Return True if a matching SMS was sent within the deduplication window."""
+        def _check():
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    SELECT COUNT(*) AS cnt FROM sms_notifications
+                    WHERE farmer_id = ?
+                      AND message_type = ?
+                      AND reference_id = ?
+                      AND status IN ('SENT', 'DELIVERED', 'PENDING')
+                      AND created_at >= datetime('now', ? || ' seconds');
+                    """,
+                    (farmer_id, message_type, reference_id, f"-{window_sec}"),
+                )
+                return cursor.fetchone()["cnt"] > 0
+        return await asyncio.to_thread(_check)
+
+    async def get_sms_notification(self, notification_id: int) -> dict[str, Any] | None:
+        """Fetch a single SMS notification record by its primary key."""
+        def _get():
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM sms_notifications WHERE id = ?;",
+                    (notification_id,),
+                )
+                row = cursor.fetchone()
+                return dict(row) if row else None
+        return await asyncio.to_thread(_get)
+
+    async def list_sms_notifications(self, filters: dict[str, Any]) -> list[dict[str, Any]]:
+        """Return SMS notifications matching the supplied filter criteria."""
+        def _list():
+            clauses: list[str] = []
+            params: list[Any] = []
+
+            if filters.get("farmer_id"):
+                clauses.append("farmer_id = ?")
+                params.append(filters["farmer_id"])
+            if filters.get("phone_number"):
+                clauses.append("phone_number = ?")
+                params.append(filters["phone_number"])
+            if filters.get("message_type"):
+                clauses.append("message_type = ?")
+                params.append(filters["message_type"])
+            if filters.get("status"):
+                clauses.append("status = ?")
+                params.append(filters["status"])
+            if filters.get("from_date"):
+                clauses.append("created_at >= ?")
+                params.append(filters["from_date"])
+            if filters.get("to_date"):
+                clauses.append("created_at <= ?")
+                params.append(filters["to_date"])
+
+            where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
+            limit  = int(filters.get("limit", 50))
+            offset = int(filters.get("offset", 0))
+            params.extend([limit, offset])
+
+            sql = f"""
+                SELECT * FROM sms_notifications
+                {where}
+                ORDER BY id DESC
+                LIMIT ? OFFSET ?;
+            """
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(sql, params)
+                return [dict(r) for r in cursor.fetchall()]
+        return await asyncio.to_thread(_list)
+
+    async def update_sms_status_by_provider_id(
+        self, provider_message_id: str, status: str
+    ) -> bool:
+        """Update notification status via provider message ID (webhook callback)."""
+        def _update():
+            now = _utc_now_iso()
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    UPDATE sms_notifications
+                    SET status = ?, updated_at = ?
+                    WHERE provider_message_id = ?;
+                    """,
+                    (status, now, provider_message_id),
+                )
+                conn.commit()
+                return cursor.rowcount > 0
+        return await asyncio.to_thread(_update)

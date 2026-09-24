@@ -3722,23 +3722,44 @@ async function handleLoginSubmit(event) {
     });
     const data = await res.json();
     if (data.success) {
-      if (data.demo_otp) {
+      const otpToFill = data.dev_otp || data.demo_otp || null;
+      if (otpToFill) {
+        window._lastDevOTP = otpToFill;  // store for autofill button
         const inputs = document.querySelectorAll('#otp-inputs input');
-        [...data.demo_otp].forEach((ch, idx) => { if (inputs[idx]) inputs[idx].value = ch; });
-        showToast(`OTP sent: ${data.demo_otp}`, 'sms');
+        [...otpToFill].forEach((ch, idx) => { if (inputs[idx]) inputs[idx].value = ch; });
+        showToast(`📱 OTP (dev mode): ${otpToFill}`, 'sms');
+        // Show a prominent dev-mode banner
+        let banner = document.getElementById('dev-otp-banner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'dev-otp-banner';
+          banner.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#1a1a2e;color:#00f5a0;border:2px solid #00f5a0;border-radius:12px;padding:12px 24px;font-size:20px;font-weight:bold;letter-spacing:6px;box-shadow:0 4px 30px rgba(0,245,160,0.3);cursor:pointer;';
+          banner.title = 'Click to dismiss';
+          banner.onclick = () => banner.remove();
+          document.body.appendChild(banner);
+        }
+        banner.textContent = `🔑 OTP: ${otpToFill}`;
+        setTimeout(() => { if (banner.parentNode) banner.remove(); }, 30000);
       } else {
-        showToast('OTP sent successfully!', 'sms');
+        showToast('📱 OTP sent to your phone!', 'sms');
       }
     } else {
       showToast(data.error || 'Could not send OTP', 'error');
     }
   } catch (err) {
-    autofillDemoOTP();
-    showToast('Demo OTP 482910 sent to +91 ' + mob, 'sms');
+    showToast('Server error. Please ensure the server is running.', 'error');
   }
 
   nav('screen-otp');
   return true;
+}
+
+function autofillDemoOTP() {
+  const otp = window._lastDevOTP || '';
+  if (!otp) { showToast('Send OTP first to get a code', 'info'); return; }
+  const inputs = document.querySelectorAll('#otp-inputs input');
+  [...otp].forEach((ch, idx) => { if (inputs[idx]) inputs[idx].value = ch; });
+  showToast(`OTP ${otp} filled`, 'sms');
 }
 
 async function handleOTPVerify() {
@@ -3773,38 +3794,15 @@ async function handleOTPVerify() {
       nav('screen-dashboard');
       return;
     } else {
-      showToast(data.error || 'Invalid OTP. Try 482910 for demo.', 'error');
+      showToast(data.error || 'Invalid OTP. Please check and try again.', 'error');
       return;
     }
   } catch (err) {
-    if (otp === '482910' || otp.length === 6) {
-      const demoFarmer = {
-        id: 'PB-10492',
-        farmer_id: 'PB-10492',
-        name: phone === '9876543210' ? 'Ram Singh' : `Farmer ${phone.slice(-4)}`,
-        full_name: phone === '9876543210' ? 'Ram Singh' : `Farmer ${phone.slice(-4)}`,
-        phone: phone,
-        mobile: phone,
-        village: 'Karnal Sector',
-        district: 'Karnal',
-        state: 'Haryana',
-        aadhaar_linked: true,
-        aadhaar_last4: '3942',
-        land_acres: 4.5,
-        land_unit: 'Acres',
-        bank_name: 'State Bank of India (SBI)',
-        account_no: 'XXXX-XXXX-5678',
-        ifsc: 'SBIN0001234'
-      };
-      saveSession(demoFarmer);
-      applyFarmerToUI(demoFarmer);
-      showToast(`Welcome ${demoFarmer.name}! लॉगिन सफल रहा।`, 'verified');
-      nav('screen-dashboard');
-      return;
-    }
     showToast('Verification failed. Please try again.', 'error');
   }
 }
+
+// autofillDemoOTP is now defined in handleSendOTP section above
 
 function quickDemoLogin() {
   const ramSingh = {

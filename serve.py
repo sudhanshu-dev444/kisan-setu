@@ -25,7 +25,57 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 DEFAULT_PORT = 8080
 ROOT_DIR = Path(__file__).resolve().parent
+APP_BUILD_DIR = ROOT_DIR / "app_build"
+if str(APP_BUILD_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_BUILD_DIR))
+
 DB_PATH = ROOT_DIR / "app_build" / "data" / "kisan_setu.db"
+
+# ── Load .env file (if present) before reading any config ──────────────────
+def _load_dotenv(env_path: Path) -> None:
+    """Parse a .env file and set variables into os.environ (no overwrite)."""
+    if not env_path.exists():
+        return
+    with open(env_path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+_load_dotenv(ROOT_DIR / ".env")
+
+import asyncio
+
+try:
+    from config import get_settings
+    from database import DatabaseService
+    from sms_service import SMSService
+    from sms_templates import MessageType, ReferenceType, SMSStatus, render
+
+    _sms_settings = get_settings()
+    _db_service = DatabaseService(_sms_settings)
+    SMS_SERVICE = SMSService(_db_service, _sms_settings)
+except Exception as _sms_init_err:
+    sys.stderr.write(f"[WARNING] Could not initialize SMS Service: {_sms_init_err}\n")
+    SMS_SERVICE = None
+
+
+def run_async(coro):
+    """Run an async coroutine synchronously on the current worker thread."""
+    try:
+        return asyncio.run(coro)
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        try:
+            return loop.run_until_complete(coro)
+        finally:
+            loop.close()
+
 
 # ─────────────────────────────────────────────
 # In-memory stores & Constants
@@ -518,35 +568,123 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             except Exception:
                 self._json({"vouchers": [], "total": 0})
 
+        # SMS Notification Listing
+        elif path == '/api/v1/sms/notifications':
+            if SMS_SERVICE:
+                try:
+                    f_id = params.get('farmer_id', [None])[0]
+                    phone = params.get('phone', [None])[0]
+                    m_type = params.get('message_type', [None])[0]
+                    st = params.get('status', [None])[0]
+                    lim = int(params.get('limit', [50])[0])
+                    off = int(params.get('offset', [0])[0])
+                    records = run_async(SMS_SERVICE.listNotifications(
+                        farmer_id=f_id, phone=phone, message_type=m_type, status=st, limit=lim, offset=off
+                    ))
+                    self._json({"notifications": records, "total": len(records), "page": (off // lim) + 1, "limit": lim})
+                    return
+                except Exception as exc:
+                    self._json({"error": str(exc)}, 500)
+                    return
+            self._json({"notifications": [], "total": 0, "page": 1, "limit": 50})
+
+        # Single SMS Notification
+        elif path.startswith('/api/v1/sms/notifications/'):
+            notif_id_str = path.split('/api/v1/sms/notifications/')[1].strip()
+            if notif_id_str.isdigit() and SMS_SERVICE:
+                try:
+                    rec = run_async(SMS_SERVICE.getNotification(int(notif_id_str)))
+                    if rec:
+                        self._json(rec)
+                    else:
+                        self._json({"error": "Notification not found"}, 404)
+                    return
+                except Exception as exc:
+                    self._json({"error": str(exc)}, 500)
+                    return
+            self._json({"error": "Invalid notification ID"}, 400)
+
         else:
             self._json({"error": f"Unknown API endpoint: {path}"}, 404)
 
     # ── Router: POST /api/* and /api/v1/* ────
     def _route_post(self, path: str, body: dict):
 
-        # POST /api/auth/send-otp
-        if path == '/api/auth/send-otp':
+        # POST /api/auth/send-otp and /api/v1/sms/otp/send
+        if path in ('/api/auth/send-otp', '/api/v1/sms/otp/send'):
             phone = str(body.get('phone', '')).strip()
             if len(phone) != 10 or not phone.isdigit():
                 self._json({"success": False, "error": "Invalid phone number"}, 400)
                 return
-            otp = generate_otp()
-            OTP_STORE[phone] = {"otp": otp, "expires": (datetime.now() + timedelta(minutes=5)).isoformat()}
-            self._json({
-                "success":    True,
-                "message":    f"OTP sent to +91-{phone}",
-                "demo_otp":   otp,
-                "expires_in": "5 minutes",
-            })
+            masked = f"+91XXXXX{phone[-5:]}"
+            dev_otp = None  # Only set in mock/dev mode for display
+            if SMS_SERVICE:
+                try:
+                    # Intercept mock provider to capture OTP for dev display
+                    import io, logging as _lg
+                    _captured = []
+                    _orig_send = SMS_SERVICE._provider.send
+                    _is_mock = type(SMS_SERVICE._provider).__name__ == 'MockSMSProvider'
+                    if _is_mock:
+                        async def _intercept(to, message):
+                            # Extract OTP digits from message
+                            import re
+                            m = re.search(r'\b(\d{6})\b', message)
+                            if m:
+                                _captured.append(m.group(1))
+                            return await _orig_send(to, message)
+                        SMS_SERVICE._provider.send = _intercept
+                    masked = run_async(SMS_SERVICE.sendOTP(phone, system_name=body.get('system_name', 'Kisan Setu')))
+                    if _is_mock:
+                        SMS_SERVICE._provider.send = _orig_send  # restore
+                        dev_otp = _captured[0] if _captured else None
+                except Exception as exc:
+                    self._json({"success": False, "error": str(exc)}, 400)
+                    return
+            else:
+                from sms_service import _generate_otp
+                otp = _generate_otp()
+                OTP_STORE[phone] = {"otp": otp, "expires": (datetime.now() + timedelta(minutes=5)).isoformat()}
+                dev_otp = otp
 
-        # POST /api/auth/verify-otp
-        elif path == '/api/auth/verify-otp':
+            resp = {
+                "success":      True,
+                "message":      f"OTP sent to {masked}",
+                "masked_phone": masked,
+                "expires_in":   "5 minutes",
+            }
+            # In mock/dev mode return OTP so developer can test without real SMS
+            if dev_otp:
+                resp["dev_otp"] = dev_otp
+                sys.stdout.write(f"\n{'='*55}\n  [DEV] OTP for {phone}: {dev_otp}\n{'='*55}\n")
+                sys.stdout.flush()
+            self._json(resp)
+
+        # POST /api/auth/verify-otp and /api/v1/sms/otp/verify
+        elif path in ('/api/auth/verify-otp', '/api/v1/sms/otp/verify'):
             phone  = str(body.get('phone', '')).strip()
             otp    = str(body.get('otp',   '')).strip()
-            record = OTP_STORE.get(phone)
-            if (record and record['otp'] == otp) or otp == '482910':
-                if phone in OTP_STORE:
+            verified = False
+            if SMS_SERVICE:
+                try:
+                    verified = run_async(SMS_SERVICE.verifyOTP(phone, otp))
+                except PermissionError as exc:
+                    self._json({"success": False, "error": str(exc)}, 400)
+                    return
+                except Exception as exc:
+                    self._json({"success": False, "error": str(exc)}, 400)
+                    return
+            else:
+                record = OTP_STORE.get(phone)
+                if record and record['otp'] == otp:
+                    verified = True
                     del OTP_STORE[phone]
+
+            if verified:
+                # If only checking verification for SMS API
+                if path == '/api/v1/sms/otp/verify':
+                    self._json({"success": True, "message": "OTP verified successfully."})
+                    return
 
                 # Check SQLite DB
                 farmer = None
@@ -660,6 +798,17 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             except Exception:
                 pass
 
+            if SMS_SERVICE:
+                try:
+                    run_async(SMS_SERVICE.sendWelcomeSMS(
+                        farmer_id=farmer_id,
+                        farmer_name=name,
+                        farmer_phone=phone,
+                        registration_id=farmer_id,
+                    ))
+                except Exception:
+                    pass
+
             self._json({"success": True, "farmer": farmer, "message": "Registration successful!"})
 
         # POST /api/farmer/update
@@ -744,6 +893,18 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "phone": phone, "mobile": phone, "village": village, "aadhaar_last4": aadhaar_last4,
                 "aadhaar_linked": True, "bank": "SBI (XXXX-5678)", "crop": "Wheat"
             }
+
+            if SMS_SERVICE and phone:
+                try:
+                    run_async(SMS_SERVICE.sendWelcomeSMS(
+                        farmer_id=farmer_id,
+                        farmer_name=name,
+                        farmer_phone=phone,
+                        registration_id=farmer_id,
+                    ))
+                except Exception:
+                    pass
+
             self._json(record, 201)
 
         # POST /api/procurement/slot (Legacy) & POST /api/v1/db/bookings
@@ -781,6 +942,21 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     conn.commit()
             except Exception:
                 pass
+
+            if SMS_SERVICE and phone:
+                try:
+                    run_async(SMS_SERVICE.sendProcurementConfirmation(
+                        farmer_id=f_id,
+                        farmer_name=f_name,
+                        phone=phone,
+                        procurement_id=token_number,
+                        crop=crop,
+                        quantity=qty,
+                        unit="Qtl",
+                        date=date,
+                    ))
+                except Exception:
+                    pass
 
             if path == '/api/procurement/slot':
                 self._json({
@@ -902,7 +1078,96 @@ class KisanSetuHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             except Exception:
                 pass
 
+            if SMS_SERVICE:
+                try:
+                    f_mobile = None
+                    with db_session() as conn:
+                        frow = conn.execute("SELECT mobile FROM farmers WHERE farmer_id = ? OR mobile = ?", (f_id, f_id)).fetchone()
+                        if frow:
+                            f_mobile = frow["mobile"]
+                    if f_mobile:
+                        run_async(SMS_SERVICE.sendPaymentConfirmation(
+                            farmer_id=f_id,
+                            farmer_name=f_name,
+                            phone=f_mobile,
+                            procurement_id=voucher_ref,
+                            amount=net,
+                            payment_reference=utr,
+                            payment_date=datetime.now().strftime("%d %b %Y"),
+                        ))
+                except Exception:
+                    pass
+
             self._json(voucher_data, 201)
+
+        # POST /api/v1/sms/send
+        elif path == '/api/v1/sms/send':
+            phone = str(body.get('phone', '')).strip()
+            msg_type = body.get('message_type', 'CUSTOM')
+            tpl_vars = body.get('template_vars', {})
+            f_id = body.get('farmer_id')
+            ref_type = body.get('reference_type')
+            ref_id = body.get('reference_id')
+            if not phone:
+                self._json({"success": False, "error": "Phone number required"}, 400)
+                return
+            if SMS_SERVICE:
+                try:
+                    if tpl_vars:
+                        message = render(msg_type, **tpl_vars)
+                    else:
+                        message = body.get('message') or msg_type
+                    rec = run_async(SMS_SERVICE.sendSMS(
+                        to=phone,
+                        message=message,
+                        farmer_id=f_id,
+                        message_type=msg_type,
+                        reference_type=ref_type,
+                        reference_id=ref_id,
+                    ))
+                    self._json({
+                        "success": rec.get("status") in (SMSStatus.SENT, SMSStatus.PENDING),
+                        "notification_id": rec.get("id"),
+                        "message": "SMS dispatched.",
+                        "status": rec.get("status", "PENDING"),
+                    })
+                    return
+                except Exception as exc:
+                    self._json({"success": False, "error": str(exc)}, 500)
+                    return
+            self._json({"success": True, "message": "SMS dispatched (mock)"})
+
+        # POST /api/v1/sms/notifications/{id}/retry
+        elif path.startswith('/api/v1/sms/notifications/') and path.endswith('/retry'):
+            notif_id_str = path.split('/api/v1/sms/notifications/')[1].replace('/retry', '').strip()
+            if notif_id_str.isdigit() and SMS_SERVICE:
+                try:
+                    rec = run_async(SMS_SERVICE.retrySMS(int(notif_id_str)))
+                    self._json({
+                        "success": rec.get("status") == SMSStatus.SENT,
+                        "notification_id": int(notif_id_str),
+                        "message": "SMS re-dispatched.",
+                        "new_status": rec.get("status", "UNKNOWN"),
+                    })
+                    return
+                except Exception as exc:
+                    self._json({"success": False, "error": str(exc)}, 400)
+                    return
+            self._json({"error": "Invalid notification ID"}, 400)
+
+        # POST /api/v1/sms/webhook/delivery
+        elif path == '/api/v1/sms/webhook/delivery':
+            msg_id = body.get('MessageSid') or body.get('requestId') or body.get('provider_message_id', '')
+            status = body.get('MessageStatus') or body.get('status') or body.get('delivery_status', 'DELIVERED')
+            if SMS_SERVICE and msg_id:
+                try:
+                    updated = run_async(SMS_SERVICE.updateDeliveryStatus(msg_id, status.upper()))
+                    self._json({"updated": updated, "provider_message_id": msg_id, "status": status.upper()})
+                    return
+                except Exception as exc:
+                    self._json({"error": str(exc)}, 500)
+                    return
+            self._json({"updated": False, "error": "Missing message ID or SMS service unavailable"}, 400)
 
         else:
             self._json({"error": f"Unknown API endpoint: {path}"}, 404)
