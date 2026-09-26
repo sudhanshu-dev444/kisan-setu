@@ -83,7 +83,19 @@ from schemas import (
     SlotBookingResponse,
     UploadResponse,
     WeatherResponse,
+    ProductListingResponse,
+    ProductListingListResponse,
+    OrderResponse,
+    OrderListResponse,
+    DeliveryResponse,
+    DeliveryCreateRequest,
+    OrderCreateRequest,
+    ProductListingCreate,
+    RouteOptimizationRequest,
+    DemandForecastRequest,
+    SellerEarningsResponse,
 )
+from ai_service import AIService
 from sms_service import SMSService
 from sms_schemas import (
     SendOTPRequest,
@@ -131,6 +143,7 @@ weather_service: WeatherService = WeatherService(settings)
 market_service: MarketService = MarketService(settings)
 sms_service: SMSService = SMSService(db_service, settings)
 rate_limiter: RateLimiter = RateLimiter(settings)
+ai_service: AIService = AIService(db_service.db_path)
 INDEX_HTML_PATH = Path(__file__).resolve().parent.parent / "index.html"
 
 # Endpoints that must stay exempt from rate limiting so operational
@@ -869,6 +882,129 @@ async def get_booking(token_number: str) -> SlotBookingResponse:
             content={"detail": f"Booking token '{token_number}' not found in database."},
         )
     return SlotBookingResponse(**record)
+
+
+# ── Marketplace Endpoints (Listings, Orders, Logistics, AI) ────────────────
+
+@app.get(
+    "/api/v1/marketplace/listings",
+    response_model=ProductListingListResponse,
+    tags=["Marketplace"],
+)
+async def list_product_listings(
+    seller_id: str | None = None,
+    crop: str | None = None,
+    district: str | None = None,
+    status: str = "ACTIVE",
+    limit: int = 50,
+) -> ProductListingListResponse:
+    listings = await db_service.list_product_listings(seller_id, crop, district, status, limit)
+    return ProductListingListResponse(
+        listings=[ProductListingResponse(**r) for r in listings],
+        total=len(listings),
+    )
+
+
+@app.post(
+    "/api/v1/marketplace/listings",
+    response_model=ProductListingResponse,
+    tags=["Marketplace"],
+)
+async def create_product_listing(payload: ProductListingCreate) -> ProductListingResponse:
+    record = await db_service.create_listing(payload.model_dump())
+    return ProductListingResponse(**record)
+
+
+@app.get(
+    "/api/v1/marketplace/listings/{listing_id}",
+    response_model=ProductListingResponse,
+    tags=["Marketplace"],
+)
+async def get_product_listing(listing_id: str) -> ProductListingResponse:
+    record = await db_service.get_listing(listing_id)
+    if not record:
+        return JSONResponse(status_code=404, content={"detail": "Listing not found."})
+    return ProductListingResponse(**record)
+
+
+@app.post(
+    "/api/v1/marketplace/orders",
+    response_model=OrderResponse,
+    tags=["Marketplace"],
+)
+async def create_order(payload: OrderCreateRequest) -> OrderResponse:
+    record = await db_service.create_order(payload.model_dump())
+    return OrderResponse(**record)
+
+
+@app.get(
+    "/api/v1/marketplace/orders",
+    response_model=OrderListResponse,
+    tags=["Marketplace"],
+)
+async def list_orders(
+    buyer_id: str | None = None,
+    seller_id: str | None = None,
+    status: str | None = None,
+    limit: int = 50,
+) -> OrderListResponse:
+    orders = await db_service.list_orders(buyer_id, seller_id, status, limit)
+    return OrderListResponse(orders=[OrderResponse(**r) for r in orders], total=len(orders))
+
+
+@app.get(
+    "/api/v1/marketplace/seller/{seller_id}/earnings",
+    response_model=SellerEarningsResponse,
+    tags=["Marketplace"],
+)
+async def get_seller_earnings(seller_id: str) -> SellerEarningsResponse:
+    data = await db_service.get_seller_earnings(seller_id)
+    return SellerEarningsResponse(**data)
+
+
+@app.post(
+    "/api/v1/logistics/deliveries",
+    response_model=DeliveryResponse,
+    tags=["Logistics"],
+)
+async def create_delivery(payload: DeliveryCreateRequest) -> DeliveryResponse:
+    record = await db_service.create_delivery(payload.model_dump())
+    return DeliveryResponse(**record)
+
+
+@app.get(
+    "/api/v1/logistics/orders/{order_id}/delivery",
+    response_model=DeliveryResponse,
+    tags=["Logistics"],
+)
+async def get_delivery_by_order(order_id: str) -> DeliveryResponse:
+    record = await db_service.get_delivery_by_order(order_id)
+    if not record:
+        return JSONResponse(status_code=404, content={"detail": "Delivery not found."})
+    return DeliveryResponse(**record)
+
+
+@app.post(
+    "/api/v1/ai/demand-forecast",
+    tags=["AI & Optimization"],
+)
+async def forecast_demand(payload: DemandForecastRequest):
+    return await ai_service.forecast_demand(
+        crop_name=payload.crop_name,
+        district=payload.district,
+        horizon_days=payload.horizon_days,
+    )
+
+
+@app.post(
+    "/api/v1/ai/route-optimize",
+    tags=["AI & Optimization"],
+)
+async def optimize_route(payload: RouteOptimizationRequest):
+    return await ai_service.optimize_route(
+        pickup=payload.pickup,
+        deliveries=payload.deliveries,
+    )
 
 
 # ── Server-Side Payment & PFMS DBT Voucher Endpoints ─────────────────────

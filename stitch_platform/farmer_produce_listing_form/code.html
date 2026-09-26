@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#9a3500", "on-tertiary-fixed-variant": "#7f2b00", "surface-container-low": "#f2f3ff", "surface-container-lowest": "#ffffff", "surface-bright": "#faf8ff", "surface-container": "#eaedff", "error-container": "#ffdad6", "on-error": "#ffffff", "on-secondary-fixed": "#2f1500", "surface-container-high": "#e2e7ff", "on-primary-fixed-variant": "#005323", "surface-container-highest": "#dae2fd", "tertiary-fixed": "#ffdbce", "secondary-fixed-dim": "#ffb77d", "on-primary-container": "#d3ffd5", "error": "#ba1a1a", "on-tertiary-fixed": "#370e00", "primary-fixed": "#95f8a7", "inverse-surface": "#283044", "on-tertiary": "#ffffff", "secondary": "#904d00", "background": "#faf8ff", "surface": "#faf8ff", "inverse-on-surface": "#eef0ff", "outline": "#6f7a6e", "outline-variant": "#becabc", "on-primary": "#ffffff", "secondary-fixed": "#ffdcc3", "primary-container": "#15803d", "on-background": "#131b2e", "on-surface-variant": "#3f493f", "on-surface": "#131b2e", "surface-dim": "#d2d9f4", "tertiary-container": "#c34500", "tertiary-fixed-dim": "#ffb599", "surface-tint": "#006d30", "on-primary-fixed": "#00210a", "on-secondary": "#ffffff", "surface-variant": "#dae2fd", "primary": "#00652c", "on-error-container": "#93000a", "inverse-primary": "#79db8d", "on-tertiary-container": "#fff0ec", "on-secondary-container": "#663500", "on-secondary-fixed-variant": "#6e3900", "primary-fixed-dim": "#79db8d", "secondary-container": "#fe932c" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-tablet": "1.25rem", "space-md": "0.75rem", "space-xs": "0.25rem", "space-lg": "1.25rem", "gutter": "1rem", "gutter-desktop": "1.5rem", "margin-desktop": "2.5rem", "space-sm": "0.5rem", "margin-tablet": "1.5rem", "space-xl": "2rem", "margin": "1rem" }, "fontFamily": { "label-sm": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "metric-price": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-unit": ["Plus Jakarta Sans"] }, "fontSize": { "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "metric-price": ["28px", { "lineHeight": "32px", "fontWeight": "800" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "metric-unit": ["14px", { "lineHeight": "18px", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Plus Jakarta Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.85);}}.pulse-live{animation:pulse-dot 2s cubic-bezier(0.4,0,0.6,1) infinite;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="KisanDirect Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVsWprOxtRS05Ds1UWeMjmHmaQJGSIygV3adbQfh7guMtR5x1pPJgeuZ_tFZVj6oVlXNwH2H7K3SHc0IbHZeax92b9ulNl7OFcNoSrEBwI9zx6Wxl7lV1IYPYev0IFSbgrrt4ZbI7cwMj26hauiQtRiwa-oZ8odDI2FzqVpZaSwR92wDLvFz0nxg_HYabR2rG24L8MtLqbKiGwIm-0bu9usrAtwefMURDrJ-0qTwfFjki1Ok4yJWbb"/><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">KisanDirect</span></div><span class="font-label-sm text-[10px] leading-tight text-primary font-bold uppercase tracking-wider">SIH 2026 • MoCAF&amp;PD</span></div></div><div class="flex items-center gap-space-xs"><div class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px]"><span class="w-2 h-2 rounded-full bg-primary pulse-live"></span><span class="hidden xs:inline">Mandi</span> Live</div><button class="min-h-[44px] min-w-[44px] px-2 flex items-center justify-center font-label-md text-label-md text-primary font-bold active:opacity-75" type="button">ENG/हिं</button><button class="min-h-[44px] min-w-[44px] flex items-center justify-center text-on-surface relative active:opacity-70" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><div class="flex items-center pl-1"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKTLDi9Kbqf7wvEQu3ImPcVcN_pIDb0rFx4Sr_Z0WLx4i0ns2ilBsBUmY7TmENuFVViGiTqDSUeyRqimmnRpG7qLDxmJAdibaztLu8pXVc6kAid8MfoKJeiT5oBuFA28JRCoQDKdSkmpCazjtIvtYimfR9N2_8Mn3csORRZkaPUvKkG2iqlwYoxn1JjU8smreSw3ctaVkxTj4YrxygcMbqEY9Dh4MbF64s7cYdFwgxUbi1XdBVHQVx"/></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full px-gutter space-y-space-md pb-space-xl">
+<!-- Top Intro & Micro Delight -->
+<div class="flex flex-col pt-space-xs">
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary pulse-live"></span>
+        Direct Procurement Channel
+      </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">Step 1 of 3 Active</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface font-extrabold mt-1 tracking-tight">New Produce Listing</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Market your harvest directly to bulk buyers &amp; FPOs with zero commission.</p>
+</div>
+<!-- Multilingual Voice Assistant Banner -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-sm">
+<div class="flex items-center gap-space-sm">
+<button class="min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-md active:scale-95 transition-transform flex-shrink-0" id="voiceMicBtn" type="button">
+<span class="material-symbols-outlined text-[26px]">mic</span>
+</button>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold">Kisan Vaani AI</span>
+<span class="px-1.5 py-0.2 bg-primary-fixed text-on-primary-fixed rounded font-label-sm text-[10px] uppercase font-bold">Auto-Fill</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-1 font-semibold mt-0.5">बोलकर लिस्ट बनाएं (Hindi, Marathi, English)</p>
+<p class="font-label-sm text-[11px] text-on-surface-variant truncate">Example: "120 क्विंटल टमाटर 28 मार्च से ₹1950 में"</p>
+</div>
+</div>
+</div>
+<!-- Step 1: Crop & Quality Specifications Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">1</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Crop &amp; Quality Specifications</h2>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]">verified</span> Agmark Standard
+      </span>
+</div>
+<!-- Quick Crop Selection Chips -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Select Produce</label>
+<div class="flex gap-2 overflow-x-auto pb-1 -mx-space-md px-space-md no-scrollbar">
+<button class="crop-chip min-h-[48px] px-3.5 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 flex-shrink-0 shadow-sm active:scale-95 transition-all" data-crop="Tomato" type="button">
+<span class="text-base">🍅</span> Tomato (टमाटर)
+        </button>
+<button class="crop-chip min-h-[48px] px-3.5 py-2 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 flex-shrink-0 active:scale-95 transition-all" data-crop="Onion" type="button">
+<span class="text-base">🧅</span> Nashik Red Onion (कांदा)
+        </button>
+<button class="crop-chip min-h-[48px] px-3.5 py-2 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 flex-shrink-0 active:scale-95 transition-all" data-crop="Wheat" type="button">
+<span class="text-base">🌾</span> Sharbati Wheat (गेहूं)
+        </button>
+<button class="crop-chip min-h-[48px] px-3.5 py-2 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 flex-shrink-0 active:scale-95 transition-all" data-crop="Paddy" type="button">
+<span class="text-base">🍚</span> Basmati Paddy
+        </button>
+<button class="crop-chip min-h-[48px] px-3.5 py-2 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 flex-shrink-0 active:scale-95 transition-all" data-crop="Chilli" type="button">
+<span class="text-base">🌶️</span> Green Chilli
+        </button>
+</div>
+</div>
+<!-- Variety Input -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="cropVariety">Specific Variety / Hybrid</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px] pointer-events-none">eco</span>
+<input class="w-full min-h-[48px] pl-10 pr-3 rounded-lg bg-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="cropVariety" type="text" value="Hybrid Desi Super Red"/>
+</div>
+</div>
+<!-- Quantity & Units Group -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5">Net Available Quantity</label>
+<div class="grid grid-cols-12 gap-2">
+<div class="col-span-6 relative flex items-center">
+<input class="w-full min-h-[48px] px-3.5 rounded-lg bg-surface-container text-on-surface font-headline-sm text-headline-sm font-bold focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="netQuantity" type="number" value="120"/>
+</div>
+<div class="col-span-6">
+<select class="w-full min-h-[48px] px-3 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary" id="quantityUnit">
+<option selected="">Quintal (100 kg)</option>
+<option>Ton (1,000 kg)</option>
+<option>Crates (25 kg)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Quality Grade Selection -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block font-label-md text-label-md text-on-surface">Quality Grade Classification</label>
+<span class="font-label-sm text-label-sm text-primary underline">Grading Guide</span>
+</div>
+<div class="grid grid-cols-3 gap-2" id="gradePillContainer">
+<button class="grade-pill min-h-[48px] flex flex-col items-center justify-center p-2 rounded-lg bg-primary text-on-primary shadow-sm active:scale-95 transition-all text-center" type="button">
+<span class="font-label-md text-label-md font-bold">Grade A</span>
+<span class="font-body-sm text-[10px] opacity-90">Export / Super</span>
+</button>
+<button class="grade-pill min-h-[48px] flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container text-on-surface active:scale-95 transition-all text-center" type="button">
+<span class="font-label-md text-label-md font-bold">Grade B</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Standard Mandi</span>
+</button>
+<button class="grade-pill min-h-[48px] flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container text-on-surface active:scale-95 transition-all text-center" type="button">
+<span class="font-label-md text-label-md font-bold">FAQ</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Fair Avg Quality</span>
+</button>
+</div>
+</div>
+<!-- Photo Upload Section -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-label-md text-label-md text-on-surface">Produce Photos (Verified Trust)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 of 4 added</span>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<div class="relative h-20 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="High angle shot of ripe vibrant red organic tomatoes neatly stacked inside a sturdy agricultural transport crate in field sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXA23E1lkNrTNVy6VnstJnzeO-QUdnW0M4VEjglTgMpVLnZV0CAfcyziCGlD1L6XJUEhv9EE6MwbuPlX1LW2Z0Sd2H2Occ1jEwH0986u-VmqHjCyuKlomcTWFksWIwNML80N-TXfHhrQfgbN3i2U9dPL8SVR7bRPwALMR4a_0iO2GSiDwJf4MXvTwVr2ON85DnUlfXKzEoYkCc5EkmYxYp2mkgw84kblloFRALDfNy_WWxY80pK9bG"/>
+<div class="absolute bottom-1 right-1 bg-surface/90 px-1 rounded text-[9px] font-bold text-on-surface">Lot 1</div>
+</div>
+<div class="relative h-20 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up detailed shot showing glossy firm skin texture of Grade A hybrid desi red tomatoes in an Indian farm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzLqR-bxdwr3_NOGToKUpZnyUmqwKPEKzwEuaUSFDhpLE9470LCR3ZVYXbM3wRkBMpg-rzeYQi1pM75RF1pirfknIZJgL_9ZvV4KiV_ApKK7lzb8HgT_QEmeLqFvpX_NF5lwN85T0nMEUs4fMOp8kjkZbbJO-uI0JHA1-IRidu96nWl4ms70qqfm1x8zCwp1wB2AEaLYtjYLXWwBfYan3KK1nb3MU_7Vfneza5sgGGB7BFbwj7gef7"/>
+<div class="absolute bottom-1 right-1 bg-surface/90 px-1 rounded text-[9px] font-bold text-on-surface">Texture</div>
+</div>
+<button class="min-h-[48px] h-20 rounded-lg bg-surface-container flex flex-col items-center justify-center text-primary active:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[24px]">add_a_photo</span>
+<span class="font-label-sm text-[10px] mt-1 font-bold">Add Photo</span>
+</button>
+<div class="h-20 rounded-lg bg-surface-container-high/60 flex items-center justify-center text-outline/50">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Critical Date & Availability Configuration (Feature 1) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">2</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Availability &amp; Shelf Life</h2>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+        Smart Dispatch
+      </span>
+</div>
+<!-- Live Dynamic Status Badge Preview (Calculated via selection) -->
+<div class="rounded-xl p-3 bg-surface-container flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Listing Visibility Status</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold" id="statusSubtitle">Listing will broadcast as upcoming lot</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm" id="dynamicStatusBadge">
+<span class="material-symbols-outlined text-[16px] animate-spin" style="animation-duration: 3s;">schedule</span>
+<span>⏱ Upcoming: Ready in 4 days</span>
+</div>
+</div>
+<!-- Date Inputs Container -->
+<div class="space-y-space-sm">
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="harvestDate">Available From (Harvest Date)</label>
+<span class="font-label-sm text-[11px] text-primary font-bold">Field Dispatch</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-primary text-[20px] pointer-events-none">calendar_today</span>
+<input class="w-full min-h-[48px] pl-10 pr-3 rounded-lg bg-surface-container text-on-surface font-label-lg text-label-lg focus:outline-none focus:ring-2 focus:ring-primary" id="harvestDate" type="date" value="2026-03-28"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">When harvest lot is graded and packaged for logistics pick-up.</p>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="expiryDate">Valid Until (Listing Expiry)</label>
+<span class="font-label-sm text-[11px] text-tertiary font-bold">Must be after dispatch</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-tertiary text-[20px] pointer-events-none">event_busy</span>
+<input class="w-full min-h-[48px] pl-10 pr-3 rounded-lg bg-surface-container text-on-surface font-label-lg text-label-lg focus:outline-none focus:ring-2 focus:ring-primary" id="expiryDate" type="date" value="2026-04-05"/>
+</div>
+</div>
+</div>
+<!-- Shelf Life Slider / Selector -->
+<div class="pt-1">
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="shelfLifeInput">Best Before / Shelf Life</label>
+<span class="px-2 py-0.5 rounded bg-surface-container-high font-label-md text-label-md text-primary font-bold" id="shelfLifeVal">7 Days after harvest</span>
+</div>
+<input class="w-full h-2 bg-surface-container rounded-lg appearance-none cursor-pointer accent-primary" id="shelfLifeInput" max="21" min="2" type="range" value="7"/>
+<div class="flex justify-between font-label-sm text-[11px] text-on-surface-variant mt-1">
+<span>2 days (Hyper-perishable)</span>
+<span>14 days</span>
+<span>21+ days</span>
+</div>
+</div>
+</div>
+<!-- Step 3: Pricing with Real-time Mandi Benchmark Nudge (Feature 2) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">3</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Fair Price &amp; Mandi Guidance</h2>
+</div>
+<div class="inline-flex items-center gap-1 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+        Agmarknet API
+      </div>
+</div>
+<!-- Official Mandi Benchmark Card (Highlight Layer) -->
+<div class="rounded-xl p-space-md bg-secondary-fixed/30 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">account_balance</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Pimpalgaon APMC Benchmark</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest font-label-sm text-[10px] font-bold text-on-surface shadow-xs">
+          TODAY • 08:30 AM
+        </span>
+</div>
+<div class="flex items-baseline justify-between pt-1">
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Modal APMC Rate Band</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-metric-price text-metric-price text-on-surface font-extrabold tracking-tight">₹1,850 - ₹2,100</span>
+<span class="font-metric-unit text-metric-unit text-on-surface-variant">/ Qtl</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-body-sm text-body-sm text-primary font-bold flex items-center justify-end gap-0.5">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> ▲ ₹80
+          </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">vs 7-day avg</span>
+</div>
+</div>
+<!-- Quick 7-Day Mini Sparkline Visualization -->
+<div class="h-10 w-full pt-1 flex items-end gap-1.5">
+<div class="flex-1 bg-primary/20 rounded-t h-4" title="Mon: ₹1,780"></div>
+<div class="flex-1 bg-primary/30 rounded-t h-5" title="Tue: ₹1,820"></div>
+<div class="flex-1 bg-primary/30 rounded-t h-6" title="Wed: ₹1,850"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-7" title="Thu: ₹1,900"></div>
+<div class="flex-1 bg-primary/50 rounded-t h-6" title="Fri: ₹1,880"></div>
+<div class="flex-1 bg-primary/70 rounded-t h-8" title="Sat: ₹1,940"></div>
+<div class="flex-1 bg-primary rounded-t h-10" title="Today: ₹2,020"></div>
+</div>
+<div class="flex justify-between font-label-sm text-[10px] text-on-surface-variant">
+<span>7 Days Ago</span>
+<span>Today's Modal Peak</span>
+</div>
+</div>
+<!-- Farmer Asking Price Input -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface font-bold" for="askingPrice">Your Direct Asking Price</label>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Net to your Bank</span>
+</div>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 font-headline-sm text-headline-sm text-on-surface font-bold pointer-events-none">₹</span>
+<input class="w-full min-h-[52px] pl-9 pr-28 rounded-lg bg-surface-container text-on-surface font-headline-lg text-headline-lg font-extrabold focus:outline-none focus:ring-2 focus:ring-primary" id="askingPrice" type="number" value="1950"/>
+<span class="absolute right-3.5 font-label-md text-label-md text-on-surface-variant pointer-events-none font-semibold">/ Quintal</span>
+</div>
+<!-- Dynamic Mandi Nudge Banner -->
+<div class="mt-2 p-2.5 rounded-lg bg-primary-fixed/40 flex items-start gap-2" id="pricingNudgeBadge">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">thumb_up</span>
+<div>
+<span class="font-label-sm text-label-sm text-primary font-bold block">Competitive Sweet Spot (-4% vs Avg Mandi)</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">
+            Bulk institutional buyers and retail chains offer quick acceptance on lots priced ₹1,920–₹1,980. Attracts <strong class="text-on-surface">3x faster buyer offers</strong>.
+          </p>
+</div>
+</div>
+</div>
+<!-- MOQ & Location -->
+<div class="grid grid-cols-1 gap-space-sm pt-1">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="moqInput">Minimum Order Quantity (MOQ)</label>
+<div class="relative flex items-center">
+<input class="w-full min-h-[48px] px-3.5 pr-24 rounded-lg bg-surface-container text-on-surface font-body-lg text-body-lg font-bold focus:outline-none focus:ring-2 focus:ring-primary" id="moqInput" type="number" value="20"/>
+<span class="absolute right-3.5 font-label-md text-label-md text-on-surface-variant pointer-events-none">Quintals</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Dispatch Hub / Farm Location</label>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-primary text-[22px]">location_on</span>
+<div class="flex-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate block">Dindori, Nashik, Maharashtra</span>
+<span class="font-label-sm text-[11px] text-primary flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> GPS Coordinates Verified (Mandi Radius: 14 km)
+            </span>
+</div>
+<button class="min-h-[48px] min-w-[48px] flex items-center justify-center text-primary font-label-sm text-label-sm font-bold" type="button">
+            Edit
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Buyer Reach Projection Bento Card -->
+<div class="rounded-xl bg-surface-container p-space-md">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface font-bold">Estimated Buyer Reach</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold">High Demand</span>
+</div>
+<div class="grid grid-cols-3 gap-2 text-center">
+<div class="bg-surface-container-lowest p-2 rounded-lg">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold block">18</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Active FPOs</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg">
+<span class="font-headline-sm text-headline-sm text-primary font-extrabold block">42</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Bulk Wholesalers</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg">
+<span class="font-headline-sm text-headline-sm text-secondary font-extrabold block">&lt; 4 hrs</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Avg Offer Time</span>
+</div>
+</div>
+</div>
+<!-- Notification & Alert Toggle Strip -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface font-bold block">Instant Buyer Notification</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Auto-alert buyers with matching saved search</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer min-h-[48px] min-w-[48px] justify-center">
+<input checked="" class="sr-only peer" id="autoNotifyToggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[14px] after:left-[6px] after:bg-surface after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Primary Sticky Bottom Action Container -->
+<div class="pt-2 space-y-2">
+<button class="w-full min-h-[52px] px-gutter py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-md active:bg-primary-container active:scale-[0.99] transition-all" id="publishBtn" type="button">
+<span class="material-symbols-outlined text-[22px]">rocket_launch</span>
+<span>Publish Listing &amp; Notify Bulk Buyers</span>
+</button>
+<div class="flex items-center justify-center gap-2 font-label-sm text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">security</span>
+      Direct payment escrow protected under MoCAF&amp;PD guidelines
+    </div>
+</div>
+</div>
+<script>
+  (function() {
+    // Crop selection micro-interaction
+    const cropChips = document.querySelectorAll('.crop-chip');
+    cropChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        cropChips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary');
+          c.classList.add('bg-surface-container', 'text-on-surface');
+        });
+        chip.classList.remove('bg-surface-container', 'text-on-surface');
+        chip.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+
+    // Grade selection micro-interaction
+    const gradePills = document.querySelectorAll('.grade-pill');
+    gradePills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        gradePills.forEach(p => {
+          p.classList.remove('bg-primary', 'text-on-primary');
+          p.classList.add('bg-surface-container', 'text-on-surface');
+        });
+        pill.classList.remove('bg-surface-container', 'text-on-surface');
+        pill.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+
+    // Dynamic Shelf Life micro-display
+    const shelfLifeInput = document.getElementById('shelfLifeInput');
+    const shelfLifeVal = document.getElementById('shelfLifeVal');
+    if (shelfLifeInput && shelfLifeVal) {
+      shelfLifeInput.addEventListener('input', (e) => {
+        shelfLifeVal.textContent = e.target.value + ' Days after harvest';
+      });
+    }
+
+    // Dynamic Availability Badge Preview logic
+    const harvestDateInput = document.getElementById('harvestDate');
+    const expiryDateInput = document.getElementById('expiryDate');
+    const dynamicBadge = document.getElementById('dynamicStatusBadge');
+    const statusSubtitle = document.getElementById('statusSubtitle');
+
+    function updateAvailabilityBadge() {
+      if (!harvestDateInput || !dynamicBadge) return;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const harvestDate = new Date(harvestDateInput.value);
+      harvestDate.setHours(0, 0, 0, 0);
+
+      const diffTime = harvestDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) {
+        dynamicBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold shadow-sm';
+        dynamicBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-primary pulse-live"></span><span>Available Now</span>';
+        if (statusSubtitle) statusSubtitle.textContent = 'Ready for immediate dispatch & loading';
+      } else {
+        dynamicBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm';
+        dynamicBadge.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin" style="animation-duration: 4s;">schedule</span><span>⏱ Upcoming: Ready in ' + diffDays + ' days</span>';
+        if (statusSubtitle) statusSubtitle.textContent = 'Listing will broadcast as advance booking';
+      }
+    }
+
+    if (harvestDateInput) {
+      harvestDateInput.addEventListener('change', () => {
+        if (expiryDateInput && new Date(expiryDateInput.value) <= new Date(harvestDateInput.value)) {
+          const nextDate = new Date(harvestDateInput.value);
+          nextDate.setDate(nextDate.getDate() + 7);
+          expiryDateInput.value = nextDate.toISOString().split('T')[0];
+        }
+        updateAvailabilityBadge();
+      });
+    }
+
+    // Dynamic Pricing Guidance Nudge
+    const askingPrice = document.getElementById('askingPrice');
+    const pricingNudgeBadge = document.getElementById('pricingNudgeBadge');
+    if (askingPrice && pricingNudgeBadge) {
+      askingPrice.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value) || 0;
+        if (val < 1850) {
+          pricingNudgeBadge.className = 'mt-2 p-2.5 rounded-lg bg-surface-container-high flex items-start gap-2';
+          pricingNudgeBadge.innerHTML = `
+            <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+            <div>
+              <span class="font-label-sm text-label-sm text-secondary font-bold block">Below Average Mandi Modal Rate</span>
+              <p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Ensure your transport and labor costs are fully covered before committing.</p>
+            </div>
+          `;
+        } else if (val <= 2050) {
+          pricingNudgeBadge.className = 'mt-2 p-2.5 rounded-lg bg-primary-fixed/40 flex items-start gap-2';
+          pricingNudgeBadge.innerHTML = `
+            <span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">thumb_up</span>
+            <div>
+              <span class="font-label-sm text-label-sm text-primary font-bold block">Competitive Sweet Spot (-4% vs Avg Mandi)</span>
+              <p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Bulk institutional buyers and retail chains offer quick acceptance on lots priced ₹1,920–₹1,980. Attracts <strong class="text-on-surface">3x faster buyer offers</strong>.</p>
+            </div>
+          `;
+        } else {
+          pricingNudgeBadge.className = 'mt-2 p-2.5 rounded-lg bg-tertiary-fixed/60 flex items-start gap-2';
+          pricingNudgeBadge.innerHTML = `
+            <span class="material-symbols-outlined text-tertiary text-[20px] shrink-0 mt-0.5">bolt</span>
+            <div>
+              <span class="font-label-sm text-label-sm text-tertiary font-bold block">Premium Tier Pricing</span>
+              <p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Priced above APMC modal rate. Buyers will expect verified Grade A export quality certification.</p>
+            </div>
+          `;
+        }
+      });
+    }
+
+    // Voice assistant button feedback micro-interaction
+    const micBtn = document.getElementById('voiceMicBtn');
+    if (micBtn) {
+      micBtn.addEventListener('click', () => {
+        micBtn.classList.toggle('ring-4');
+        micBtn.classList.toggle('ring-primary/40');
+      });
+    }
+
+    // Publish Listing CTA tactile response
+    const publishBtn = document.getElementById('publishBtn');
+    if (publishBtn) {
+      publishBtn.addEventListener('click', () => {
+        publishBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>
+          <span>Broadcasting to 42 Buyers...</span>
+        `;
+        setTimeout(() => {
+          publishBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[22px]">check_circle</span>
+            <span>Listing Published Live!</span>
+          `;
+          publishBtn.classList.remove('bg-primary');
+          publishBtn.classList.add('bg-primary-container');
+        }, 1200);
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="market" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm mt-0.5">Market</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 active:opacity-80 transition-colors text-primary font-bold" data-path="list-produce" href="#"><span class="material-symbols-outlined text-[24px]">add_circle</span><span class="font-label-sm text-label-sm mt-0.5">List Produce</span></a><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="costing-and-fair-price" href="#"><span class="material-symbols-outlined text-[24px]">balance</span><span class="font-label-sm text-label-sm mt-0.5">Costing</span></a><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="mandi-trends" href="#"><span class="material-symbols-outlined text-[24px]">trending_up</span><span class="font-label-sm text-label-sm mt-0.5">Mandi Trends</span></a></div></nav></body></html>

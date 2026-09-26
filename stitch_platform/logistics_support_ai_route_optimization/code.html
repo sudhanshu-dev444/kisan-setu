@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#9a3500", "on-tertiary-fixed-variant": "#7f2b00", "surface-container-low": "#f2f3ff", "surface-container-lowest": "#ffffff", "surface-bright": "#faf8ff", "surface-container": "#eaedff", "error-container": "#ffdad6", "on-error": "#ffffff", "on-secondary-fixed": "#2f1500", "surface-container-high": "#e2e7ff", "on-primary-fixed-variant": "#005323", "surface-container-highest": "#dae2fd", "tertiary-fixed": "#ffdbce", "secondary-fixed-dim": "#ffb77d", "on-primary-container": "#d3ffd5", "error": "#ba1a1a", "on-tertiary-fixed": "#370e00", "primary-fixed": "#95f8a7", "inverse-surface": "#283044", "on-tertiary": "#ffffff", "secondary": "#904d00", "background": "#faf8ff", "surface": "#faf8ff", "inverse-on-surface": "#eef0ff", "outline": "#6f7a6e", "outline-variant": "#becabc", "on-primary": "#ffffff", "secondary-fixed": "#ffdcc3", "primary-container": "#15803d", "on-background": "#131b2e", "on-surface-variant": "#3f493f", "on-surface": "#131b2e", "surface-dim": "#d2d9f4", "tertiary-container": "#c34500", "tertiary-fixed-dim": "#ffb599", "surface-tint": "#006d30", "on-primary-fixed": "#00210a", "on-secondary": "#ffffff", "surface-variant": "#dae2fd", "primary": "#00652c", "on-error-container": "#93000a", "inverse-primary": "#79db8d", "on-tertiary-container": "#fff0ec", "on-secondary-container": "#663500", "on-secondary-fixed-variant": "#6e3900", "primary-fixed-dim": "#79db8d", "secondary-container": "#fe932c" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-tablet": "1.25rem", "space-md": "0.75rem", "space-xs": "0.25rem", "space-lg": "1.25rem", "gutter": "1rem", "gutter-desktop": "1.5rem", "margin-desktop": "2.5rem", "space-sm": "0.5rem", "margin-tablet": "1.5rem", "space-xl": "2rem", "margin": "1rem" }, "fontFamily": { "label-sm": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "metric-price": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-unit": ["Plus Jakarta Sans"] }, "fontSize": { "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "metric-price": ["28px", { "lineHeight": "32px", "fontWeight": "800" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "metric-unit": ["14px", { "lineHeight": "18px", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Plus Jakarta Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.85);}}.pulse-live{animation:pulse-dot 2s cubic-bezier(0.4,0,0.6,1) infinite;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="KisanDirect Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVsWprOxtRS05Ds1UWeMjmHmaQJGSIygV3adbQfh7guMtR5x1pPJgeuZ_tFZVj6oVlXNwH2H7K3SHc0IbHZeax92b9ulNl7OFcNoSrEBwI9zx6Wxl7lV1IYPYev0IFSbgrrt4ZbI7cwMj26hauiQtRiwa-oZ8odDI2FzqVpZaSwR92wDLvFz0nxg_HYabR2rG24L8MtLqbKiGwIm-0bu9usrAtwefMURDrJ-0qTwfFjki1Ok4yJWbb"/><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">KisanDirect</span></div><span class="font-label-sm text-[10px] leading-tight text-primary font-bold uppercase tracking-wider">SIH 2026 • MoCAF&amp;PD</span></div></div><div class="flex items-center gap-space-xs"><div class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px]"><span class="w-2 h-2 rounded-full bg-primary pulse-live"></span><span class="hidden xs:inline">Mandi</span> Live</div><button class="min-h-[44px] min-w-[44px] px-2 flex items-center justify-center font-label-md text-label-md text-primary font-bold active:opacity-75" type="button">ENG/हिंदी</button><button class="min-h-[44px] min-w-[44px] flex items-center justify-center text-on-surface relative active:opacity-70" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><div class="flex items-center pl-1"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKTLDi9Kbqf7wvEQu3ImPcVcN_pIDb0rFx4Sr_Z0WLx4i0ns2ilBsBUmY7TmENuFVViGiTqDSUeyRqimmnRpG7qLDxmJAdibaztLu8pXVc6kAid8MfoKJeiT5oBuFA28JRCoQDKdSkmpCazjtIvtYimfR9N2_8Mn3csORRZkaPUvKkG2iqlwYoxn1JjU8smreSw3ctaVkxTj4YrxygcMbqEY9Dh4MbF64s7cYdFwgxUbi1XdBVHQVx"/></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full px-gutter space-y-space-md">
+<!-- 1. Header Context Banner -->
+<div class="rounded-xl bg-surface-container-high p-space-sm shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-sm text-label-sm text-primary tracking-tight truncate uppercase">MoCAF&amp;PD Green Corridor Logistics</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Zero-Loss Cold Chain Network • SIH 26033</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm shrink-0">
+<span class="w-2 h-2 rounded-full bg-primary pulse-live"></span>
+<span class="font-label-sm text-label-sm text-primary">GPS LIVE</span>
+</div>
+</div>
+<!-- 2. Active Shipment Hero Card -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">Trip #TRK-DEL-8924</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">EV Reefer 12T</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-0.5">150 Qtl Fresh Hybrid Tomato</p>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm shrink-0">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span>
+        7.2°C Optimal
+      </span>
+</div>
+<!-- Route Line -->
+<div class="rounded-lg bg-surface-container-low p-space-sm space-y-2">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1 truncate max-w-[45%]">
+<span class="material-symbols-outlined text-[16px] text-primary">trip_origin</span>
+<span class="truncate">Dindori Cluster (Nashik, MH)</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_forward</span>
+<div class="flex items-center gap-1 truncate max-w-[45%] justify-end">
+<span class="material-symbols-outlined text-[16px] text-tertiary">location_on</span>
+<span class="truncate">Azadpur Mandi (Delhi)</span>
+</div>
+</div>
+<!-- Live Corridor Progress -->
+<div class="space-y-1">
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Past Ratlam Bypass (MP)
+          </span>
+<span class="font-label-sm text-label-sm text-primary">ETA: 18h 40m left</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 58%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-[10px] text-on-surface-variant">
+<span>Departed: 04:30 AM</span>
+<span>Target Delivery: 06:00 AM Tomorrow</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. AI Route Optimization Engine -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">AI Route Corridor Engine</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">MoCAF&amp;PD AI Model</span>
+</div>
+<!-- Interactive Route Toggle Container -->
+<div class="space-y-space-sm" id="routeSelector">
+<!-- Route A (AI Recommended) -->
+<div class="rounded-xl p-space-sm bg-surface-container-low transition-all cursor-pointer shadow-sm relative overflow-hidden" id="cardRouteA" onclick="selectRoute('A')">
+<div class="flex items-start justify-between mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-primary" id="iconA">radio_button_checked</span>
+<span class="font-label-lg text-label-lg text-on-surface">Route A: NH-52 &amp; WDFC Expressway</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">AI Optimal</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2 pl-6">Multi-cluster aggregation via Western Dedicated Freight Expressway with 4 continuous cold hubs.</p>
+<!-- Metric Badges -->
+<div class="grid grid-cols-3 gap-1.5 text-center">
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Distance</span>
+<span class="font-label-md text-label-md text-on-surface">1,180 km</span>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Savings</span>
+<span class="font-label-md text-label-md text-primary">₹6,400 &amp; 4.2h</span>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Perish Risk</span>
+<span class="font-label-md text-label-md text-primary">-18% Spoilage</span>
+</div>
+</div>
+</div>
+<!-- Route B (Traditional) -->
+<div class="rounded-xl p-space-sm bg-surface-container transition-all cursor-pointer opacity-80" id="cardRouteB" onclick="selectRoute('B')">
+<div class="flex items-start justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" id="iconB">radio_button_unchecked</span>
+<span class="font-label-lg text-label-lg text-on-surface">Route B: Conventional NH-48</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-dim text-on-surface-variant font-label-sm text-label-sm">Legacy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2 pl-6">Heavy border checkpoint delay at MP/Rajasthan inter-state toll corridor.</p>
+<div class="grid grid-cols-3 gap-1.5 text-center">
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Distance</span>
+<span class="font-label-md text-label-md text-on-surface">1,290 km</span>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Added Delay</span>
+<span class="font-label-md text-label-md text-error">+6.0 hrs risk</span>
+</div>
+<div class="rounded-lg bg-surface-container-lowest p-1.5">
+<span class="block font-label-sm text-[10px] text-on-surface-variant">Waste Rate</span>
+<span class="font-label-md text-label-md text-error">+14% Spoilage</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Live Telemetry Engine Parameters -->
+<div class="rounded-xl bg-surface-container-low p-space-sm space-y-2">
+<div class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sensors</span>
+        Live AI Constraint Parameters
+      </div>
+<div class="grid grid-cols-1 gap-1.5 font-body-sm text-body-sm">
+<div class="flex items-center justify-between text-on-surface p-1 rounded bg-surface-container-lowest">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">traffic</span>
+            Border Jam Predictive Model
+          </span>
+<span class="font-label-sm text-label-sm text-primary">Clear (Fast-Tag AI Lane)</span>
+</div>
+<div class="flex items-center justify-between text-on-surface p-1 rounded bg-surface-container-lowest">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">ev_station</span>
+            Reefer EV Swapping Stations
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface">4 Hubs on Route</span>
+</div>
+<div class="flex items-center justify-between text-on-surface p-1 rounded bg-surface-container-lowest">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">thermostat</span>
+            Dynamic Solar Heat Mitigation
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface">Auto-chilled pre-cooling</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Micro-Pooling & Aggregation Section -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">FPO Shared Freight Micro-Pooling</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Smallholder batch aggregation in single reefer vehicle</p>
+</div>
+<div class="text-right">
+<span class="font-metric-price text-[22px] leading-tight text-primary">88%</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">12 Ton Capacity</span>
+</div>
+</div>
+<!-- Capacity Bar -->
+<div class="space-y-1">
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary-container" style="width: 44%" title="Batch 1"></div>
+<div class="h-full bg-primary" style="width: 33%" title="Batch 2"></div>
+<div class="h-full bg-secondary" style="width: 11%" title="Batch 3"></div>
+<div class="h-full bg-surface-container-highest" style="width: 12%" title="Empty"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-[10px] text-on-surface-variant">
+<span>132 Qtl Loaded</span>
+<span class="text-secondary font-bold">18 Qtl Space Available</span>
+</div>
+</div>
+<!-- Pooled Farmer Batches List -->
+<div class="space-y-1.5 pt-1">
+<!-- Batch 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-on-surface">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container shrink-0"></div>
+<div>
+<p class="font-label-md text-label-md leading-tight">Rameshwar Patil</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Dindori FPO Hub • Tomato (Grade A)</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-on-surface">60 Qtl</span>
+<span class="block font-label-sm text-[10px] text-primary">Verified</span>
+</div>
+</div>
+<!-- Batch 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-on-surface">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-primary shrink-0"></div>
+<div>
+<p class="font-label-md text-label-md leading-tight">Ganesh Shinde</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Pimpalgaon APMC • Tomato (Grade FAQ)</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-on-surface">50 Qtl</span>
+<span class="block font-label-sm text-[10px] text-primary">Verified</span>
+</div>
+</div>
+<!-- Batch 3 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-on-surface">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-secondary shrink-0"></div>
+<div>
+<p class="font-label-md text-label-md leading-tight">Anandi Devi</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Ozar Collection Center • Tomato (Roma)</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-on-surface">22 Qtl</span>
+<span class="block font-label-sm text-[10px] text-primary">Verified</span>
+</div>
+</div>
+</div>
+<!-- Micro Booking CTA for remaining quota -->
+<div class="rounded-xl p-space-sm bg-surface-container-high flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-secondary">add_box</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block leading-tight">Have surplus nearby?</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">18 Qtl open for instant pickup</span>
+</div>
+</div>
+<button class="min-h-[44px] px-3 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm text-label-sm shadow-sm active:opacity-90" type="button">
+        Book @ ₹1.80/kg
+      </button>
+</div>
+</div>
+<!-- 5. Cold Chain IoT Telemetry & Spoilage Prevention -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-primary">device_thermostat</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">IoT Spoilage Prevention</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary pulse-live"></span>
+        Sensors Online
+      </span>
+</div>
+<!-- 4 Grid Telemetry Gauges -->
+<div class="grid grid-cols-2 gap-space-xs">
+<!-- Reefer Temp -->
+<div class="rounded-xl bg-surface-container-low p-space-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">REEFER TEMP</span>
+<span class="material-symbols-outlined text-[16px] text-primary">ac_unit</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-primary">7.2°C</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Safe Zone: 6°C - 9°C</span>
+</div>
+<span class="inline-flex w-fit items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-[10px]">
+          Steady ±0.2°C
+        </span>
+</div>
+<!-- Humidity -->
+<div class="rounded-xl bg-surface-container-low p-space-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">HUMIDITY</span>
+<span class="material-symbols-outlined text-[16px] text-primary">humidity_percentage</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">89%</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Optimum (85-92%)</span>
+</div>
+<span class="inline-flex w-fit items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-[10px]">
+          Condensation Safe
+        </span>
+</div>
+<!-- Ethylene -->
+<div class="rounded-xl bg-surface-container-low p-space-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">ETHYLENE GAS</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">air</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-on-surface">0.04 <span class="text-sm font-normal">ppm</span></span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Ripening Suppressed</span>
+</div>
+<span class="inline-flex w-fit items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-[10px]">
+          Scrubber Active
+        </span>
+</div>
+<!-- Smart Lock Seal -->
+<div class="rounded-xl bg-surface-container-low p-space-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">DOOR SEAL</span>
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-primary">LOCKED</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">E-Seal #NIC-9042</span>
+</div>
+<span class="inline-flex w-fit items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-[10px]">
+          Tamper-Proof
+        </span>
+</div>
+</div>
+</div>
+<!-- 6. Cost & Intermediary Savings Breakdown -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-primary">savings</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Direct Logistics Value Capture</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary bg-surface-container px-2 py-0.5 rounded-full">50% Savings</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="rounded-xl bg-surface-container-low p-space-sm">
+<span class="font-label-sm text-[11px] text-on-surface-variant block">Farmer Out-of-Pocket</span>
+<span class="font-metric-price text-headline-lg text-primary font-bold">₹0.00</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant block mt-0.5">100% absorbed by institutional procurement</span>
+</div>
+<div class="rounded-xl bg-surface-container-high p-space-sm">
+<span class="font-label-sm text-[11px] text-on-surface-variant block">Buyer Freight Rate</span>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-price text-headline-lg text-on-surface font-bold">₹2.40</span>
+<span class="font-metric-unit text-metric-unit text-on-surface-variant">/kg</span>
+</div>
+<span class="font-body-sm text-[11px] text-tertiary block mt-0.5 line-through">Mandi Cartel: ₹4.80/kg</span>
+</div>
+</div>
+</div>
+<!-- 7. Verified Action Buttons & Passes -->
+<div class="space-y-space-xs pt-1 pb-4">
+<!-- Primary CTA: Telemetry Map -->
+<button class="w-full min-h-[48px] px-5 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm active:bg-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">map</span>
+      Inspect Live GPS &amp; Sensor Telemetry Map
+    </button>
+<!-- Secondary Action Strip -->
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="min-h-[48px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">call</span>
+        Driver / Hub Contact
+      </button>
+<button class="min-h-[48px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">qr_code_2</span>
+        e-Way &amp; Mandi Pass
+      </button>
+</div>
+</div>
+</div>
+<script>
+  function selectRoute(route) {
+    const cardA = document.getElementById('cardRouteA');
+    const cardB = document.getElementById('cardRouteB');
+    const iconA = document.getElementById('iconA');
+    const iconB = document.getElementById('iconB');
+
+    if (route === 'A') {
+      cardA.classList.remove('bg-surface-container', 'opacity-80');
+      cardA.classList.add('bg-surface-container-low', 'shadow-sm');
+      iconA.textContent = 'radio_button_checked';
+      iconA.classList.remove('text-on-surface-variant');
+      iconA.classList.add('text-primary');
+
+      cardB.classList.add('bg-surface-container', 'opacity-80');
+      cardB.classList.remove('bg-surface-container-low', 'shadow-sm');
+      iconB.textContent = 'radio_button_unchecked';
+      iconB.classList.remove('text-primary');
+      iconB.classList.add('text-on-surface-variant');
+    } else {
+      cardB.classList.remove('bg-surface-container', 'opacity-80');
+      cardB.classList.add('bg-surface-container-low', 'shadow-sm');
+      iconB.textContent = 'radio_button_checked';
+      iconB.classList.remove('text-on-surface-variant');
+      iconB.classList.add('text-primary');
+
+      cardA.classList.add('bg-surface-container', 'opacity-80');
+      cardA.classList.remove('bg-surface-container-low', 'shadow-sm');
+      iconA.textContent = 'radio_button_unchecked';
+      iconA.classList.remove('text-primary');
+      iconA.classList.add('text-on-surface-variant');
+    }
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="marketplace" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm mt-0.5">Market</span></a><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="logistics-and-route-optimization" href="#"><span class="material-symbols-outlined text-[24px]">local_shipping</span><span class="font-label-sm text-label-sm mt-0.5">Logistics</span></a><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="mandi-and-ai-demand-forecast" href="#"><span class="material-symbols-outlined text-[24px]">trending_up</span><span class="font-label-sm text-label-sm mt-0.5">AI Forecast</span></a><a class="flex flex-col items-center justify-center min-h-[48px] min-w-[48px] flex-1 py-1 text-on-surface-variant active:opacity-80 transition-colors" data-path="costing-and-agreements" href="#"><span class="material-symbols-outlined text-[24px]">balance</span><span class="font-label-sm text-label-sm mt-0.5">Costing</span></a></div></nav></body></html>

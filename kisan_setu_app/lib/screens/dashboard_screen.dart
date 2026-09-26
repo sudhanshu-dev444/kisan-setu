@@ -8,6 +8,10 @@ import '../state/app_state.dart';
 import 'quality_check_screen.dart';
 import 'payments_screen.dart';
 import 'help_center_screen.dart';
+import 'marketplace_listings_screen.dart';
+import 'logistics_screen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -37,9 +41,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             index: currentIndex,
             children: const [
               DashboardHomeView(),
-              QualityCheckScreen(isEmbeddedInNav: true),
+              MarketplaceListingsScreen(isEmbeddedInNav: true),
+              LogisticsScreen(isEmbeddedInNav: true),
               PaymentsScreen(isEmbeddedInNav: true),
-              HelpCenterScreen(isEmbeddedInNav: true),
             ],
           ),
           bottomNavigationBar: CustomBottomNavBar(
@@ -52,11 +56,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class DashboardHomeView extends StatelessWidget {
+class DashboardHomeView extends StatefulWidget {
   const DashboardHomeView({super.key});
 
   @override
+  State<DashboardHomeView> createState() => _DashboardHomeViewState();
+}
+
+class _DashboardHomeViewState extends State<DashboardHomeView> {
+  Map<String, dynamic>? earnings;
+  Map<String, dynamic>? forecast;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDashboardData();
+  }
+
+  Future<void> _fetchDashboardData() async {
+    try {
+      final earningsRes = await http.get(Uri.parse('http://localhost:8000/api/v1/marketplace/seller/PB-10492/earnings'));
+      final forecastRes = await http.post(
+        Uri.parse('http://localhost:8000/api/v1/ai/demand-forecast'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({"crop_name": "Wheat", "district": "Karnal", "horizon_days": 7}),
+      );
+
+      if (earningsRes.statusCode == 200 && forecastRes.statusCode == 200) {
+        setState(() {
+          earnings = json.decode(earningsRes.body);
+          forecast = json.decode(forecastRes.body);
+          isLoading = false;
+        });
+      } else {
+        setState(() => isLoading = false);
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -66,16 +112,11 @@ class DashboardHomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Live Queue Status Card
-              _buildLiveQueueCard(context),
+              _buildEarningsSummary(),
               const SizedBox(height: 24),
-
-              // Main Actions Grid (2x2)
               _buildActionGrid(context),
               const SizedBox(height: 24),
-
-              // Recent Activity Section
-              _buildRecentActivity(context),
+              _buildAIForecast(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -84,105 +125,67 @@ class DashboardHomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildLiveQueueCard(BuildContext context) {
+  Widget _buildEarningsSummary() {
+    final revenue = earnings?['total_revenue'] ?? 0.0;
+    final qty = earnings?['total_quantity_sold'] ?? 0.0;
+    
     return Container(
       decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.primaryContainer, width: 1.5),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Live Queue Status',
-                      style: AppTypography.headlineSmall(color: AppColors.primaryFixed),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'कतार की स्थिति • Sonipat Mandi',
-                      style: AppTypography.bodySmall(color: AppColors.primaryFixedDim),
-                    ),
-                  ],
-                ),
-                const Icon(
-                  Icons.timer,
-                  size: 36,
-                  color: AppColors.secondaryContainer,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
-            // Queue progress box
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withOpacity(0.15)),
-              ),
-              child: Column(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${AppState().queueAheadCount}',
-                        style: AppTypography.headlineLarge(color: AppColors.secondaryFixed).copyWith(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        'people ahead / लोग आगे',
-                        style: AppTypography.labelLarge(color: AppColors.primaryFixed),
-                      ),
-                    ],
+                  Text(
+                    'Total Sales Revenue',
+                    style: AppTypography.headlineSmall(color: AppColors.primaryFixed),
                   ),
-                  const SizedBox(height: 10),
-
-                  // Thick high-contrast progress bar
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      height: 12,
-                      color: AppColors.primaryContainer,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: Container(color: AppColors.secondaryContainer),
-                          ),
-                          const Expanded(
-                            flex: 3,
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Est. Wait: ${AppState().queueWaitTime} / अनुमानित समय',
-                      style: AppTypography.labelMedium(color: AppColors.primaryFixed),
-                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'कुल बिक्री आय',
+                    style: AppTypography.bodySmall(color: AppColors.primaryFixedDim),
                   ),
                 ],
               ),
+              const Icon(Icons.account_balance_wallet, size: 36, color: AppColors.secondaryContainer),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white.withOpacity(0.15)),
             ),
-          ],
-        ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '₹$revenue',
+                  style: AppTypography.headlineLarge(color: AppColors.secondaryFixed).copyWith(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  '$qty Qtl Sold',
+                  style: AppTypography.labelLarge(color: AppColors.primaryFixed),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -191,7 +194,6 @@ class DashboardHomeView extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 500;
-
         return GridView.count(
           crossAxisCount: isWide ? 2 : 1,
           shrinkWrap: true,
@@ -202,31 +204,31 @@ class DashboardHomeView extends StatelessWidget {
           children: [
             _buildActionTile(
               context: context,
-              icon: Icons.calendar_add_on,
-              titleEn: 'Book Slot',
-              titleHi: 'स्लॉट बुक करें',
-              onTap: () => Navigator.pushNamed(context, '/book-slot'),
+              icon: Icons.add_circle_outline,
+              titleEn: 'Create Listing',
+              titleHi: 'नयी लिस्टिंग',
+              onTap: () {},
             ),
             _buildActionTile(
               context: context,
-              icon: Icons.local_shipping,
-              titleEn: 'Track Order',
-              titleHi: 'ऑर्डर ट्रैक करें',
-              onTap: () => Navigator.pushNamed(context, '/track'),
+              icon: Icons.price_check,
+              titleEn: 'Market Prices',
+              titleHi: 'मंडी भाव',
+              onTap: () {},
             ),
             _buildActionTile(
               context: context,
-              icon: Icons.account_balance_wallet,
-              titleEn: 'My Payments',
-              titleHi: 'मेरे भुगतान',
-              onTap: () => Navigator.pushNamed(context, '/payments'),
+              icon: Icons.insights,
+              titleEn: 'Demand Forecast',
+              titleHi: 'मांग पूर्वानुमान',
+              onTap: () {},
             ),
             _buildActionTile(
               context: context,
-              icon: Icons.groups,
-              titleEn: 'Queue History',
-              titleHi: 'कतार इतिहास',
-              onTap: () => Navigator.pushNamed(context, '/mandi-token'),
+              icon: Icons.support_agent,
+              titleEn: 'Help Center',
+              titleHi: 'सहायता केंद्र',
+              onTap: () {},
             ),
           ],
         );
@@ -291,7 +293,9 @@ class DashboardHomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentActivity(BuildContext context) {
+  Widget _buildAIForecast(BuildContext context) {
+    final predicted = forecast?['predicted_demand_quintals'] ?? 0.0;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -303,7 +307,7 @@ class DashboardHomeView extends StatelessWidget {
             ),
           ),
           child: Text(
-            'Recent Activity / हाल की गतिविधि',
+            'AI Demand Forecast (7 Days)',
             style: AppTypography.headlineSmall(color: AppColors.primary),
           ),
         ),
@@ -323,7 +327,7 @@ class DashboardHomeView extends StatelessWidget {
                   color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check_circle, color: AppColors.onPrimary, size: 22),
+                child: const Icon(Icons.trending_up, color: AppColors.onPrimary, size: 22),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -331,18 +335,18 @@ class DashboardHomeView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Wheat Sale Complete',
+                      'Wheat Demand - Karnal',
                       style: AppTypography.labelLarge(color: AppColors.onTertiaryFixedVariant),
                     ),
                     Text(
-                      'Today, 10:30 AM • Ref: #8901B',
+                      'Expected buyers for your crops',
                       style: AppTypography.bodySmall(color: AppColors.onTertiaryFixedVariant),
                     ),
                   ],
                 ),
               ),
               Text(
-                '₹15,400',
+                '~$predicted Qtl',
                 style: AppTypography.headlineSmall(color: AppColors.primary),
               ),
             ],
@@ -352,3 +356,4 @@ class DashboardHomeView extends StatelessWidget {
     );
   }
 }
+

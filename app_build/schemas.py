@@ -466,3 +466,147 @@ class PriceCheckRequest(BaseModel):
     district: str = "Karnal"
 
 
+# ── Marketplace Models (Pivot) ──────────────────────────────────────────
+
+class ProductListingBase(BaseModel):
+    crop_name: str
+    quantity_quintals: float
+    price_per_quintal: float
+    crop_variety: str | None = None
+    msp_reference: float | None = None
+    harvest_date: str | None = None
+    available_from: str | None = None
+    available_until: str | None = None
+    location_village: str
+    location_district: str
+    location_state: str = "Haryana"
+    latitude: float | None = None
+    longitude: float | None = None
+    quality_moisture_pct: float | None = None
+    quality_foreign_matter_pct: float | None = None
+    quality_grade: str | None = None
+    photo_url: str | None = None
+
+
+class ProductListingCreate(ProductListingBase):
+    seller_id: str | None = None
+    seller_name: str | None = None
+    seller_type: str = "farmer"
+
+
+class ProductListingResponse(ProductListingBase):
+    id: int
+    listing_id: str
+    seller_id: str
+    seller_name: str
+    seller_type: str
+    status: str
+    views_count: int
+    created_at: str
+    updated_at: str
+
+
+class ProductListingListResponse(BaseModel):
+    listings: list[ProductListingResponse]
+    total: int
+
+
+class OrderCreateRequest(BaseModel):
+    listing_id: str
+    quantity_quintals: float
+    price_per_quintal: float
+    buyer_id: str | None = None
+    buyer_name: str | None = None
+    buyer_type: str = "consumer"
+    buyer_phone: str | None = None
+    delivery_address: str | None = None
+    delivery_district: str | None = None
+    delivery_lat: float | None = None
+    delivery_lng: float | None = None
+    payment_ref: str | None = None
+
+
+class OrderResponse(BaseModel):
+    id: int
+    order_id: str
+    listing_id: str
+    buyer_id: str
+    buyer_name: str
+    buyer_type: str
+    buyer_phone: str
+    seller_id: str
+    seller_name: str
+    crop_name: str
+    quantity_quintals: float
+    price_per_quintal: float
+    total_amount: float
+    delivery_address: str | None = None
+    delivery_district: str | None = None
+    delivery_lat: float | None = None
+    delivery_lng: float | None = None
+    status: str
+    payment_status: str
+    payment_ref: str | None = None
+    created_at: str
+    updated_at: str
+
+
+class OrderListResponse(BaseModel):
+    orders: list[OrderResponse]
+    total: int
+
+
+class DeliveryCreateRequest(BaseModel):
+    order_id: str
+    driver_name: str | None = None
+    driver_phone: str | None = None
+    vehicle_number: str | None = None
+    pickup_lat: float | None = None
+    pickup_lng: float | None = None
+    dropoff_lat: float | None = None
+    dropoff_lng: float | None = None
+    estimated_distance_km: float | None = None
+    estimated_duration_min: int | None = None
+    route_waypoints: str | None = None
+
+
+class DeliveryResponse(BaseModel):
+    id: int
+    delivery_id: str
+    order_id: str
+    driver_name: str | None = None
+    driver_phone: str | None = None
+    vehicle_number: str | None = None
+    pickup_lat: float | None = None
+    pickup_lng: float | None = None
+    dropoff_lat: float | None = None
+    dropoff_lng: float | None = None
+    estimated_distance_km: float | None = None
+    estimated_duration_min: int | None = None
+    route_waypoints: str | None = None
+    current_stage: str
+    picked_up_at: str | None = None
+    delivered_at: str | None = None
+    created_at: str
+    updated_at: str
+
+
+class DemandForecastRequest(BaseModel):
+    crop_name: str
+    district: str
+    horizon_days: int = 7
+
+
+class RouteOptimizationRequest(BaseModel):
+    pickup: dict[str, float]
+    deliveries: list[dict[str, Any]]
+
+
+class SellerEarningsResponse(BaseModel):
+    seller_id: str
+    total_orders: int
+    total_revenue: float
+    paid_amount: float
+    pending_amount: float
+    total_quantity_sold: float
+    generated_at: str
